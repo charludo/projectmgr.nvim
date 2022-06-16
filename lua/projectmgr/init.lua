@@ -77,13 +77,9 @@ local function open_project()
     local id,_ = string.match(str, "%d+")
     id = id:gsub(" ", "")
     close_window()
-    local new_wd,_ = fetch.get_single_project(id)
-    api.nvim_command('echo "'..new_wd..'"')
-end
-
-local function move_cursor()
-    local new_pos = math.max(4, api.nvim_get_cursor(win)[1] - 1)
-    api.nvim_win_set_cursor(win, {new_pos, 0})
+    local new_wd,command = fetch.get_single_project(id)
+    api.nvim_command('cd '..new_wd)
+    api.nvim_command(command)
 end
 
 local function set_mappings()
@@ -94,7 +90,6 @@ local function set_mappings()
         h = 'update_view(-1)',
         l = 'update_view(1)',
         q = 'close_window()',
-        k = 'move_cursor()'
     }
 
     for k,v in pairs(mappings) do
