@@ -142,24 +142,24 @@ local function whid()
     api.nvim_win_set_cursor(win, {4, 0})
 end
 
-return {
-    whid = whid,
-    update_view = update_view,
-    open_file = open_file,
-    move_cursor = move_cursor,
-    close_window = close_window
-}
+-- return {
+    -- whid = whid,
+    -- update_view = update_view,
+    -- open_file = open_file,
+    -- move_cursor = move_cursor,
+    -- close_window = close_window
+-- }
 
 -- Creates an object for the module. All of the module's
 -- functions are associated with this object, which is
 -- returned when the module is called with `require`.
--- local M = {}
+local M = {}
 
 -- Routes calls made to this module to functions in the
 -- plugin's other modules.
 -- M.switch_project = switch.switch_project
--- M.get_projects = fetch.get_projects
+M.get_projects = fetch.get_projects
 -- M.create_project = update.create_project
 -- M.delete_project = update.delete_project
 
--- return M
+return M
