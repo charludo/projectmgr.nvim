@@ -137,13 +137,10 @@ local M = {}
 
 -- Routes calls made to this module to functions in the
 -- plugin's other modules.
--- M.switch_project = switch.switch_project
 M.show_selection = show_selection
 M.open_project = open_project
 M.delete_project = delete_project
 M.close_window = close_window
-M.delete_project = update.delete_project
 M.create_project = update.create_project
--- M.delete_project = update.delete_project
 
 return M
