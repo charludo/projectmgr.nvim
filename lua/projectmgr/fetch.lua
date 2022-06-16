@@ -23,7 +23,7 @@ end
 
 function M.get_single_project(id)
     local db = sqlite.open("projects.db")
-    local path, command = db:exec("SELECT path, command FROM projects WHERE id=='"..id.."';")
+    local path, command = db:rowexec("SELECT path, command FROM projects WHERE id=='"..id.."';")
     return path, command
 end
 
