@@ -73,18 +73,16 @@ end
 
 local function delete_project()
     local str = api.nvim_get_current_line()
-    local id,_ = string.match(str, "%d+")
-    id = id:gsub(" ", "")
-    fetch.delete_project(id)
+    local name = str:gsub(" ", "")
+    update.delete_project(name)
     update_view(0)
 end
 
 local function open_project()
     local str = api.nvim_get_current_line()
-    local id,_ = string.match(str, "%d+")
-    id = id:gsub(" ", "")
+    local name = str:gsub(" ", "")
     close_window()
-    local new_wd,command = fetch.get_single_project(id)
+    local new_wd,command = fetch.get_single_project(name)
     api.nvim_command('cd '..new_wd)
     api.nvim_command(command)
 end
@@ -141,7 +139,8 @@ local M = {}
 -- M.switch_project = switch.switch_project
 M.show_selection = show_selection
 M.open_project = open_project
-M.delete_project = delete_project
+M.close_window = close_window
+M.delete_project = update.delete_project
 M.create_project = update.create_project
 -- M.delete_project = update.delete_project
 

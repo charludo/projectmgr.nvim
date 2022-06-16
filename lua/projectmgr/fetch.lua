@@ -21,9 +21,9 @@ function M.get_projects()
     return results
 end
 
-function M.get_single_project(id)
+function M.get_single_project(name)
     local db = sqlite.open("projects.db")
-    local path, command = db:rowexec("SELECT path, command FROM projects WHERE id=='"..id.."';")
+    local path, command = db:rowexec("SELECT path, command FROM projects WHERE name=='"..name.."';")
     return path, command
 end
 

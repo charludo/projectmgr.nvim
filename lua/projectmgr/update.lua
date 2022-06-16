@@ -29,10 +29,10 @@ function M.create_project()
 end
 
 -- Deletes a project.
-function M.delete_project(id)
+function M.delete_project(name)
     local db = sqlite.open("projects.db")
 
-    db:exec("DELETE FROM projects WHERE id == " .. id .. ";")
+    db:exec("DELETE FROM projects WHERE name == " .. name .. ";")
     db:close()
 end
 
