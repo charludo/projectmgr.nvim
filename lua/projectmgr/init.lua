@@ -84,8 +84,8 @@ local function update_view(direction)
     local result = fetch.get_projects()[position]
     
     local flattened = {}
-    for k,_ in pairs(result) do
-        flattened[k] = result[k].name
+    for k,item in ipairs(result) do
+        flattened[k] = item[1]
     end
     -- for k,_ in pairs(result) do
         -- result[k] = '  '..result[k]
