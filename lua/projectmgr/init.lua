@@ -85,7 +85,7 @@ local function update_view(direction)
     
     local flattened = {}
     for k,item in ipairs(result) do
-        flattened[k] = item[1]
+        flattened[k] = item[2]
     end
     for k,_ in pairs(flattened) do
         flattened[k] = '  '..flattened[k]
