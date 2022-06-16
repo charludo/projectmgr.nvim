@@ -1,7 +1,6 @@
 -- Imports the plugin's additional Lua modules.
--- local switch = require("projectmgr.switch")
 local fetch = require("projectmgr.fetch")
--- local update = require("projectmgr.update")
+local update = require("projectmgr.update")
 
 
 
@@ -72,6 +71,14 @@ local function close_window()
     api.nvim_win_close(win, true)
 end
 
+local function delete_project()
+    local str = api.nvim_get_current_line()
+    local id,_ = string.match(str, "%d+")
+    id = id:gsub(" ", "")
+    fetch.delete_project(id)
+    update_view(0)
+end
+
 local function open_project()
     local str = api.nvim_get_current_line()
     local id,_ = string.match(str, "%d+")
@@ -87,6 +94,7 @@ local function set_mappings()
         ['['] = 'update_view(-1)',
         [']'] = 'update_view(1)',
         ['<cr>'] = 'open_project()',
+        x = 'delete_project()',
         h = 'update_view(-1)',
         l = 'update_view(1)',
         q = 'close_window()',
@@ -107,7 +115,7 @@ local function set_mappings()
     end
 end
 
-local function whid()
+local function show_selection()
     position = 0
     open_window()
     set_mappings()
@@ -131,10 +139,10 @@ local M = {}
 -- Routes calls made to this module to functions in the
 -- plugin's other modules.
 -- M.switch_project = switch.switch_project
-M.switch_project = whid
-M.get_projects = fetch.get_projects
+M.show_selection = show_selection
 M.open_project = open_project
--- M.create_project = update.create_project
+M.delete_project = delete_project
+M.create_project = update.create_project
 -- M.delete_project = update.delete_project
 
 return M

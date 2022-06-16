@@ -29,27 +29,10 @@ function M.create_project()
 end
 
 -- Deletes a project.
-function M.delete_project()
+function M.delete_project(id)
     local db = sqlite.open("projects.db")
 
-    local project_to_delete = -1
-    local project_selected = -1
-    repeat
-        local db_results = db:exec("SELECT * FROM projects;")
-        for i, item in ipairs(db_results[2]) do
-            print(tostring(db_results[1][i]) .. ': ' .. item)
-        end
-
-        project_selected = tonumber(vim.fn.input("ID of project to delete: "))
-
-        for _, id in ipairs(db_results[1]) do
-            if (id == project_selected) then project_to_delete = project_selected end
-        end
-
-        print("")
-    until project_selected >= 0
-
-    db:exec("DELETE FROM projects WHERE id = " .. project_to_delete .. ";")
+    db:exec("DELETE FROM projects WHERE id == " .. id .. ";")
     db:close()
 end
 
