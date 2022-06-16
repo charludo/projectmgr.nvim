@@ -11,8 +11,7 @@ function M.get_projects()
 
     local db_results = db:exec("SELECT * FROM projects;")
     -- for k, item in ipairs(db_results[1]) do print(k .. ' ' .. item) end
-    for k, item in ipairs(db_results[2]) do print(k .. ' ' .. item) end
-    for k, item in ipairs(db_results[3]) do print(k .. ' ' .. item) end
+    for k, item in ipairs(db_results.name) do print(k .. ' ' .. item) end
     for k, item in ipairs(db_results[4]) do print(k .. ' ' .. item) end
     print(db_results)
     db:close()
