@@ -87,9 +87,9 @@ local function update_view(direction)
     for k,item in ipairs(result) do
         flattened[k] = item[1]
     end
-    -- for k,_ in pairs(result) do
-        -- result[k] = '  '..result[k]
-    -- end
+    for k,_ in pairs(flattened) do
+        flattened[k] = '  '..flattened[k]
+    end
 
     api.nvim_buf_set_lines(buf, 1, 2, false, {center('Projects')})
     api.nvim_buf_set_lines(buf, 3, -1, false, flattened)
