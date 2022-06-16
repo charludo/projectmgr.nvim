@@ -27,8 +27,8 @@ local function open_window()
     local height = api.nvim_get_option("lines")
 
     -- calculate our floating window size
-    local win_height = math.ceil(height * 0.5 - 4)
-    local win_width = math.ceil(width * 0.7)
+    local win_height = math.ceil(height * 0.4 - 4)
+    local win_width = math.ceil(width * 0.4)
 
     -- and its starting position
     local row = math.ceil((height - win_height) / 2 - 1)
@@ -99,8 +99,9 @@ end
 
 local function open_file()
     local str = api.nvim_get_current_line()
+    local id = string.gmatch(str, "[^|]")[1]:gsub(" ", "")
     close_window()
-    api.nvim_command('cd '..str)
+    api.nvim_command('echo "--'..id..'--"')
 end
 
 local function move_cursor()
@@ -160,6 +161,7 @@ local M = {}
 -- M.switch_project = switch.switch_project
 M.switch_project = whid
 M.get_projects = fetch.get_projects
+M.open_file = open_file
 -- M.create_project = update.create_project
 -- M.delete_project = update.delete_project
 
