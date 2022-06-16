@@ -65,7 +65,7 @@ local function update_view(direction)
     end
 
     -- api.nvim_buf_set_lines(buf, 1, 2, false, {center('Projects')})
-    -- api.nvim_buf_set_lines(buf, 3, -1, false, flattened)
+    api.nvim_buf_set_lines(buf, 3, -1, false, flattened)
 
     -- api.nvim_buf_add_highlight(buf, -1, 'whidSubHeader', 1, 0, -1)
     api.nvim_buf_set_option(buf, 'modifiable', false)
