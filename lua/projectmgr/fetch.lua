@@ -9,13 +9,18 @@ local M = {}
 function M.get_projects()
     local db = sqlite.open("projects.db")
 
-    local db_results = db:exec("SELECT * FROM projects;")
+    local db_results, nrow = db:exec("SELECT * FROM projects;")
 
-    local results = {}
+    -- local results = {}
     -- for k, item in ipairs(db_results[1]) do print(k .. ' ' .. item) end
-    for k, item in ipairs(db_results.name) do results[k] = item end
-    for k, item in ipairs(db_results[4]) do print(k .. ' ' .. item) end
-    print(results)
+    -- for k, item in ipairs(db_results.name) do results[k] = item end
+    -- for k, item in ipairs(db_results[4]) do print(k .. ' ' .. item) end
+    -- print(results)
+
+    for i=1, nrow do
+        print(db_results.name[i] .. db_results.id[i])
+    end
+
     db:close()
     return db_results
 end
