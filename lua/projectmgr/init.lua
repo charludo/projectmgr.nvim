@@ -1,6 +1,6 @@
 -- Imports the plugin's additional Lua modules.
 -- local switch = require("projectmgr.switch")
--- local fetch = require("projectmgr.fetch")
+local fetch = require("projectmgr.fetch")
 -- local update = require("projectmgr.update")
 
 
