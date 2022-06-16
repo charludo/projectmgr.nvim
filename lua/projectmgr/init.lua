@@ -81,7 +81,7 @@ local function update_view(direction)
     position = position + direction
     if position < 0 then position = 0 end
 
-    local result = fetch.get_projects()[position]
+    local result = fetch.get_projects()
     
     local flattened = {}
     for k,item in ipairs(result) do
