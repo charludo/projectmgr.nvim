@@ -74,6 +74,7 @@ end
 local function delete_project()
     local str = api.nvim_get_current_line()
     local name = str:gsub(" ", "")
+    print("--"..name.."--")
     update.delete_project(name)
     update_view(0)
 end
