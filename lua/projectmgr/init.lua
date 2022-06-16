@@ -49,7 +49,7 @@ end
 local function update_view(direction)
     api.nvim_buf_set_option(buf, 'modifiable', true)
     position = position + direction
-    if position < 0 then position = 0 end
+    if position < 1 then position = 1 end
 
     local flattened = fetch.get_projects()
     for k,_ in pairs(flattened) do
@@ -67,7 +67,6 @@ end
 local function delete_project()
     local str = api.nvim_get_current_line()
     local name = str:gsub(" ", "")
-    print("--"..name.."--")
     update.delete_project(name)
     update_view(0)
 end
