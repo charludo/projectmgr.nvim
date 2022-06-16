@@ -18,7 +18,7 @@ function M.get_projects()
     -- print(results)
 
     for i=1, nrow do
-        print(db_results.name[i] .. db_results.id[i])
+        print(db_results.name[i] .. tostring(db_results.id[i]))
     end
 
     db:close()
