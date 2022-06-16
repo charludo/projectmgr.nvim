@@ -78,7 +78,8 @@ local function open_project()
     id = id:gsub(" ", "")
     close_window()
     local new_wd, _ = fetch.get_single_project(id)
-    api.nvim_command('echo "'..new_wd..'"')
+    print(new_wd)
+    -- api.nvim_command('echo "'..new_wd..'"')
 end
 
 local function move_cursor()
