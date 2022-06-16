@@ -81,7 +81,10 @@ local function update_view(direction)
     position = position + direction
     if position < 0 then position = 0 end
 
-    local result = fetch.get_projects()
+    local flattened = fetch.get_projects()
+    for k,_ in pairs(flattened) do
+        flattened[k] = '  '..flattened[k]
+    end
 
     api.nvim_buf_set_lines(buf, 1, 2, false, {center('Projects')})
     api.nvim_buf_set_lines(buf, 3, -1, false, flattened)
