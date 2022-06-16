@@ -20,7 +20,7 @@ local function open_window()
     local border_buf = api.nvim_create_buf(false, true)
 
     api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
-    api.nvim_buf_set_option(buf, 'filetype', 'whid')
+    api.nvim_buf_set_option(buf, 'filetype', 'projectmgr')
 
     -- get dimensions
     local width = api.nvim_get_option("columns")
@@ -41,39 +41,17 @@ local function open_window()
         width = win_width,
         height = win_height,
         row = row,
-        col = col
+        col = col,
+        border = {"╔", "═" ,"╗", "║", "╝", "═", "╚", "║"}
     }
 
     -- and finally create it with buffer attached
     win = api.nvim_open_win(buf, true, opts)
-
-    -- local border_opts = {
-        -- style = "minimal",
-        -- relative = "editor",
-        -- width = win_width + 2,
-        -- height = win_height + 2,
-        -- row = row - 1,
-        -- col = col - 1
-    -- }
-
-    --
-    -- local border_lines = { '╔' .. string.rep('═', win_width) .. '╗' }
-    -- local middle_line = '║' .. string.rep(' ', win_width) .. '║'
-    -- for _=1, win_height do
-    --     table.insert(border_lines, middle_line)
-    -- end
-    -- table.insert(border_lines, '╚' .. string.rep('═', win_width) .. '╝')
-    -- api.nvim_buf_set_lines(border_buf, 0, -1, false, border_lines)
-    --
-    -- local border_win = api.nvim_open_win(border_buf, true, border_opts)
-    win = api.nvim_open_win(buf, true, opts)
-    -- api.nvim_command('au BufWipeout <buffer> exe "silent bwipeout! "'..border_buf)
-    --
     api.nvim_win_set_option(win, 'cursorline', true) -- it highlight line with the cursor on it
 
     -- we can add title already here, because first line will never change
     api.nvim_buf_set_lines(buf, 0, -1, false, { center('Projects'), '', ''})
-    api.nvim_buf_add_highlight(buf, -1, 'WhidHeader', 0, 0, -1)
+    api.nvim_buf_add_highlight(buf, -1, 'ProjectmgrHeader', 0, 0, -1)
 end
 
 local function update_view(direction)
