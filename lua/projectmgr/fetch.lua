@@ -11,18 +11,14 @@ function M.get_projects()
 
     local db_results, nrow = db:exec("SELECT * FROM projects;")
 
-    -- local results = {}
-    -- for k, item in ipairs(db_results[1]) do print(k .. ' ' .. item) end
-    -- for k, item in ipairs(db_results.name) do results[k] = item end
-    -- for k, item in ipairs(db_results[4]) do print(k .. ' ' .. item) end
-    -- print(results)
+    local results = {}
 
     for i=1, nrow do
-        print(db_results.name[i] .. tostring(db_results.id[i]))
+        results[i] = {db_results.id[i], db_results.name[i], db_results.path[i], db_results.command[i]}
     end
 
     db:close()
-    return db_results
+    return results
 end
 -- print(M.get_projects())
 return M
