@@ -76,8 +76,12 @@ local function open_project()
     local name = str:gsub(" ", "")
     close_window()
     local new_wd,command = fetch.get_single_project(name)
-    api.nvim_command('cd '..new_wd)
-    api.nvim_command(command)
+    if new_wd ~= nil then
+        api.nvim_command('cd '..new_wd)
+        if command ~= nil then
+            api.nvim_command(command)
+        end
+    end
 end
 
 local function set_mappings()
