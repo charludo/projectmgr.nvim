@@ -10,8 +10,7 @@
 if exists("g:loaded_projectmgr")
     finish
 endif
-let g:loaded_projectmgr = 1
-
+let s:save_cpo = &cpo " save user coptions
 " Defines a package path for Lua. This facilitates importing the
 " Lua modules from the plugin's dependency directory.
 let s:lua_rocks_deps_loc =  expand("<sfile>:h:r") . "/../lua/projectmgr/deps"
@@ -22,3 +21,8 @@ command! -nargs=0 Project lua require("projectmgr").switch_project()
 command! -nargs=0 GetProjects lua require("projectmgr").get_projects()
 command! -nargs=0 CreateProject lua require("projectmgr").create_project()
 command! -nargs=0 DeleteProject lua require("projectmgr").delete_project()
+
+let &cpo = s:save_cpo " restore user coptions
+hi def link WhidHeader      Number
+hi def link WhidSubHeader   Identifier
+let g:loaded_projectmgr = 1
