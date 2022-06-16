@@ -99,7 +99,8 @@ end
 
 local function open_file()
     local str = api.nvim_get_current_line()
-    local id = string.gmatch(str, "[^|]")[1]:gsub(" ", "")
+    local id,_ = string.gmatch(str, "[^|]")
+    -- id = id:gsub(" ", "")
     close_window()
     api.nvim_command('echo "--'..id..'--"')
 end
