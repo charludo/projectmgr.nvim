@@ -32,7 +32,7 @@ end
 function M.delete_project(name)
     local db = sqlite.open("projects.db")
 
-    db:exec("DELETE FROM projects WHERE name == " .. name .. ";")
+    db:exec("DELETE FROM projects WHERE name = " .. name .. ";")
     db:close()
 end
 
