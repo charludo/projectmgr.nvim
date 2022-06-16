@@ -120,7 +120,7 @@ local function set_mappings()
     }
 
     for k,v in pairs(mappings) do
-        api.nvim_buf_set_keymap(buf, 'n', k, ':lua require"whid".'..v..'<cr>', {
+        api.nvim_buf_set_keymap(buf, 'n', k, ':lua require"projectmgr".'..v..'<cr>', {
             nowait = true, noremap = true, silent = true
         })
     end
@@ -158,6 +158,7 @@ local M = {}
 -- Routes calls made to this module to functions in the
 -- plugin's other modules.
 -- M.switch_project = switch.switch_project
+M.switch_project = whid
 M.get_projects = fetch.get_projects
 -- M.create_project = update.create_project
 -- M.delete_project = update.delete_project

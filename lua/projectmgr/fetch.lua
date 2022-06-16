@@ -20,5 +20,5 @@ function M.get_projects()
     db:close()
     return results
 end
--- print(M.get_projects())
+
 return M
