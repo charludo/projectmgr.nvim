@@ -14,7 +14,7 @@ function M.get_projects()
     local results = {}
 
     for i=1, nrow do
-        results[i] = tostring(db_results.id[i]) .. "  |  " .. db_results.name[i] .. " " .. db_results.path[i] .. " " .. db_results.command[i]
+        results[i] = tostring(db_results.id[i]):gsub("LL", "") .. "  |  " .. db_results.name[i]
     end
 
     db:close()
