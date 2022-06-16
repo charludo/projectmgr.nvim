@@ -27,8 +27,8 @@ local function open_window()
     local height = api.nvim_get_option("lines")
 
     -- calculate our floating window size
-    local win_height = math.ceil(height * 0.4 - 4)
-    local win_width = math.ceil(width * 0.4)
+    local win_height = math.ceil(height * 0.3 - 4)
+    local win_width = math.ceil(width * 0.2)
 
     -- and its starting position
     local row = math.ceil((height - win_height) / 2 - 1)
@@ -64,10 +64,7 @@ local function update_view(direction)
         flattened[k] = '  '..flattened[k]
     end
 
-    -- api.nvim_buf_set_lines(buf, 1, 2, false, {center('Projects')})
     api.nvim_buf_set_lines(buf, 3, -1, false, flattened)
-
-    -- api.nvim_buf_add_highlight(buf, -1, 'whidSubHeader', 1, 0, -1)
     api.nvim_buf_set_option(buf, 'modifiable', false)
 end
 
@@ -75,12 +72,13 @@ local function close_window()
     api.nvim_win_close(win, true)
 end
 
-local function open_file()
+local function open_project()
     local str = api.nvim_get_current_line()
     local id,_ = string.match(str, "%d+")
     id = id:gsub(" ", "")
     close_window()
-    api.nvim_command('echo "--'..id..'--"')
+    local new_wd, _ = fetch.get_single_project(id)
+    api.nvim_command('cd '..new_wd)
 end
 
 local function move_cursor()
@@ -92,7 +90,7 @@ local function set_mappings()
     local mappings = {
         ['['] = 'update_view(-1)',
         [']'] = 'update_view(1)',
-        ['<cr>'] = 'open_file()',
+        ['<cr>'] = 'open_project()',
         h = 'update_view(-1)',
         l = 'update_view(1)',
         q = 'close_window()',
@@ -125,7 +123,7 @@ end
 -- return {
     -- whid = whid,
     -- update_view = update_view,
-    -- open_file = open_file,
+    -- open_project = open_project,
     -- move_cursor = move_cursor,
     -- close_window = close_window
 -- }
@@ -140,7 +138,7 @@ local M = {}
 -- M.switch_project = switch.switch_project
 M.switch_project = whid
 M.get_projects = fetch.get_projects
-M.open_file = open_file
+M.open_project = open_project
 -- M.create_project = update.create_project
 -- M.delete_project = update.delete_project
 

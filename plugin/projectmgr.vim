@@ -14,7 +14,6 @@ let s:save_cpo = &cpo " save user coptions
 set cpo&vim
 
 hi def link ProjectmgrHeader      Number
-hi def link WhidSubHeader   Identifier
 
 " Defines a package path for Lua. This facilitates importing the
 " Lua modules from the plugin's dependency directory.
