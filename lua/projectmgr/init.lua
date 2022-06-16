@@ -82,9 +82,9 @@ local function update_view(direction)
     if position < 0 then position = 0 end
 
     local result = fetch.get_projects()[position]
-    for k,_ in pairs(result) do
-        result[k] = '  '..result[k]
-    end
+    -- for k,_ in pairs(result) do
+        -- result[k] = '  '..result[k]
+    -- end
 
     api.nvim_buf_set_lines(buf, 1, 2, false, {center('Projects')})
     api.nvim_buf_set_lines(buf, 3, -1, false, result)
