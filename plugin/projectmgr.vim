@@ -27,7 +27,7 @@ hi def link WhidSubHeader   Identifier
 " command! -nargs=0 CreateProject lua require("projectmgr").create_project()
 " command! -nargs=0 DeleteProject lua require("projectmgr").delete_project()
 
-command! Whid lua require'whid'.whid()
+command! Whid lua require('projectmgr').whid()
 
 let &cpo = s:save_cpo " restore user coptions
 unlet s:save_cpo
