@@ -8,15 +8,8 @@ local api = vim.api
 local buf, win
 local position = 0
 
-local function center(str)
-    local width = api.nvim_win_get_width(0)
-    local shift = math.floor(width / 2) - math.floor(string.len(str) / 2)
-    return string.rep(' ', shift) .. str
-end
-
 local function open_window()
     buf = api.nvim_create_buf(false, true)
-    local border_buf = api.nvim_create_buf(false, true)
 
     api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
     api.nvim_buf_set_option(buf, 'filetype', 'projectmgr')
@@ -49,7 +42,7 @@ local function open_window()
     api.nvim_win_set_option(win, 'cursorline', true) -- it highlight line with the cursor on it
 
     -- we can add title already here, because first line will never change
-    api.nvim_buf_set_lines(buf, 0, -1, false, { center('Projects'), '', ''})
+    api.nvim_buf_set_lines(buf, 0, -1, false, { 'Projects', '', ''})
     api.nvim_buf_add_highlight(buf, -1, 'ProjectmgrHeader', 0, 0, -1)
 end
 
@@ -90,13 +83,13 @@ end
 
 local function set_mappings()
     local mappings = {
-        ['['] = 'update_view(-1)',
-        [']'] = 'update_view(1)',
+        -- ['['] = 'update_view(-1)',
+        -- [']'] = 'update_view(1)',
         ['<cr>'] = 'open_project()',
-        x = 'delete_project()',
-        h = 'update_view(-1)',
-        l = 'update_view(1)',
-        q = 'close_window()',
+        ['x'] = 'delete_project()',
+        -- h = 'update_view(-1)',
+        -- l = 'update_view(1)',
+        ['q'] = 'close_window()',
     }
 
     for k,v in pairs(mappings) do
@@ -105,7 +98,7 @@ local function set_mappings()
         })
     end
     local other_chars = {
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z'
     }
     for _,v in ipairs(other_chars) do
         api.nvim_buf_set_keymap(buf, 'n', v, '', { nowait = true, noremap = true, silent = true })
@@ -121,14 +114,6 @@ local function show_selection()
     update_view(0)
     api.nvim_win_set_cursor(win, {4, 0})
 end
-
--- return {
-    -- whid = whid,
-    -- update_view = update_view,
-    -- open_project = open_project,
-    -- move_cursor = move_cursor,
-    -- close_window = close_window
--- }
 
 -- Creates an object for the module. All of the module's
 -- functions are associated with this object, which is
