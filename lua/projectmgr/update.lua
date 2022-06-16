@@ -24,7 +24,7 @@ function M.create_project()
     print("")
 
     local db = sqlite.open("projects.db")
-    db:exec("INSERT INTO projects (name, path, command) VALUES (''" .. name .. "', '" .. path .. "', '" .. command .. "');")
+    db:exec("INSERT INTO projects (name, path, command) VALUES ('" .. name .. "', '" .. path .. "', '" .. command .. "');")
     db:close()
 end
 
