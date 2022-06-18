@@ -7,6 +7,7 @@ local M = {}
 -- Fetches projects tasks from the database and
 -- prints the output.
 function M.get_projects()
+    print(db_path)
     local db = sqlite.open(db_path)
 
     local db_results, nrow = db:exec("SELECT * FROM projects;")
