@@ -1,14 +1,13 @@
 -- Imports the module for handling SQLite.
 local sqlite = require("ljsqlite3")
-
+local db_path = string.match(debug.getinfo(1,"S").source, "^@(.+/)[%a%-%d_]+%.lua$"):gsub("lua/projectmgr/", "projects.db")
 -- Creates an object for the module.
 local M = {}
 
 -- Fetches projects tasks from the database and
 -- prints the output.
 function M.get_projects()
-    print(string.match(debug.getinfo(1,"S").source, "^@(.+/)[%a%-%d_]+%.lua$"):gsub("lua/projectmgr", "projects.db"))
-    local db = sqlite.open("projects.db")
+    local db = sqlite.open(db_path)
 
     local db_results, nrow = db:exec("SELECT * FROM projects;")
 
@@ -23,7 +22,7 @@ function M.get_projects()
 end
 
 function M.get_single_project(name)
-    local db = sqlite.open("projects.db")
+    local db = sqlite.open(db_path)
     local path, command = db:rowexec("SELECT path, command FROM projects WHERE name=='"..name.."';")
     return path, command
 end

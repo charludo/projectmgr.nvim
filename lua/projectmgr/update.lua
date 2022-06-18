@@ -1,6 +1,6 @@
 -- Imports the module for handling SQLite.
 local sqlite = require("ljsqlite3")
-
+local db_path = string.match(debug.getinfo(1,"S").source, "^@(.+/)[%a%-%d_]+%.lua$"):gsub("lua/projectmgr/", "projects.db")
 -- Creates an object for the module.
 local M = {}
 
@@ -23,14 +23,14 @@ function M.create_project()
     command = vim.fn.input("Startup Command (opional): ")
     print("")
 
-    local db = sqlite.open("projects.db")
+    local db = sqlite.open(db_path)
     db:exec("INSERT INTO projects (name, path, command) VALUES ('" .. name .. "', '" .. path .. "', '" .. command .. "');")
     db:close()
 end
 
 -- Deletes a project.
 function M.delete_project(name)
-    local db = sqlite.open("projects.db")
+    local db = sqlite.open(db_path)
 
     db:exec("DELETE FROM projects WHERE name == '" .. name .. "';")
     db:close()
