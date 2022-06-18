@@ -7,7 +7,7 @@ local M = {}
 -- Fetches projects tasks from the database and
 -- prints the output.
 function M.get_projects()
-    print(string.match(debug.getinfo(1,"S").source, "^@(.+/)[%a%-%d_]+%.lua$"))
+    print(string.match(debug.getinfo(1,"S").source, "^@(.+/)[%a%-%d_]+%.lua$"):gsub("lua/projectmgr", "projects.db"))
     local db = sqlite.open("projects.db")
 
     local db_results, nrow = db:exec("SELECT * FROM projects;")
