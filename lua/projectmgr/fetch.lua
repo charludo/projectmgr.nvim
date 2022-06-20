@@ -10,7 +10,7 @@ function M.get_projects()
     print(db_path)
     local db = sqlite.open(db_path)
 
-    local db_results, nrow = db:exec("SELECT * FROM projects;")
+    local db_results, nrow = db:exec("SELECT * FROM projects ORDER BY name;")
 
     local results = {}
 
