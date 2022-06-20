@@ -66,18 +66,20 @@ local function close_window()
     api.nvim_win_close(win, true)
 end
 
-local function delete_project()
+local function get_name()
     local str = api.nvim_get_current_line()
     local name = str:match'^%s*(.*)'
-    update.delete_project(name)
+    return name
+end
+
+local function delete_project()
+    update.delete_project(get_name())
     update_view(0)
 end
 
 local function open_project()
-    local str = api.nvim_get_current_line()
-    local name = str:match'^%s*(.*)'
     close_window()
-    local new_wd,command = fetch.get_single_project(name)
+    local new_wd,command = fetch.get_single_project(get_name())
     if new_wd ~= nil then
         api.nvim_command('cd '..new_wd)
         if command ~= nil then
@@ -86,6 +88,24 @@ local function open_project()
     end
 end
 
+local function handle_update()
+    close_window()
+    open_window()
+    update.update_project(get_name())
+    local old_pos = position
+    position = 0
+    update_view(old_pos)
+end
+
+local function handle_create()
+    close_window()
+    open_window()
+    update.create_project()
+    position = 0
+    update_view(position)
+end
+
+
 local function set_mappings()
     local mappings = {
         -- ['['] = 'update_view(-1)',
@@ -93,9 +113,13 @@ local function set_mappings()
         ['<cr>'] = 'open_project()',
         ['x'] = 'delete_project()',
         ['d'] = 'delete_project()',
+        ['e'] = 'handle_update()',
+        ['u'] = 'handle_update()',
+        ['a'] = 'handle_create()',
         -- h = 'update_view(-1)',
         -- l = 'update_view(1)',
         ['q'] = 'close_window()',
+        ['<ESC>'] = 'close_window()',
     }
 
     for k,v in pairs(mappings) do
@@ -104,7 +128,7 @@ local function set_mappings()
         })
     end
     local other_chars = {
-        'a', 'b', 'c', 'e', 'f', 'g', 'i', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z'
+        'b', 'c', 'f', 'g', 'i', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v', 'w', 'y', 'z'
     }
     for _,v in ipairs(other_chars) do
         api.nvim_buf_set_keymap(buf, 'n', v, '', { nowait = true, noremap = true, silent = true })
@@ -133,5 +157,7 @@ M.open_project = open_project
 M.delete_project = delete_project
 M.close_window = close_window
 M.create_project = update.create_project
+M.update_project = handle_update
+M.handle_create = handle_create
 
 return M
