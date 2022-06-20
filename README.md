@@ -7,7 +7,7 @@
 3. [Installation](#installation)
     - [With packer](#with-packer)
     - [With other plugin managers](#with-other-plugin-managers)
-4. [Commands & Functions](#commands-functions)
+4. [Commands & Functions](#commands--functions)
 
 ## What problem does this plugin solve?
 
