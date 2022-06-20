@@ -90,22 +90,20 @@ end
 
 local function handle_update()
     local old_name = get_name()
-    local old_pos = position
-    position = 0
+    local old_pos = api.nvim_win_get_cursor()
 
     close_window()
     update.update_project(old_name)
     open_window()
 
-    update_view(old_pos)
+    api.nvim_win_set_cursor(win, old_pos)
 end
 
 local function handle_create()
     close_window()
     update.create_project()
     open_window()
-    position = 0
-    update_view(position)
+    api.nvim_win_set_cursor(win, {4, 0})
 end
 
 
