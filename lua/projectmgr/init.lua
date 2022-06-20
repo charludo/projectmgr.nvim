@@ -66,14 +66,14 @@ end
 
 local function delete_project()
     local str = api.nvim_get_current_line()
-    local name = str:gsub(" ", "")
+    local name = str:match'^%s*(.*)'
     update.delete_project(name)
     update_view(0)
 end
 
 local function open_project()
     local str = api.nvim_get_current_line()
-    local name = str:gsub(" ", "")
+    local name = str:match'^%s*(.*)'
     close_window()
     local new_wd,command = fetch.get_single_project(name)
     if new_wd ~= nil then
