@@ -49,7 +49,7 @@ function M.update_project(old_name)
     print("Updated project.")
 
     local db = sqlite.open(db_path)
-    db:exec("UPDTAE projects SET name='"..name.."', path='"..path.."', command='"..command.."' WHERE name=='"..old_name.."' LIMIT 1;")
+    db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', command='"..command.."' WHERE name=='"..old_name.."';")
     db:close()
 end
 
