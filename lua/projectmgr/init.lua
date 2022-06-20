@@ -89,8 +89,9 @@ local function open_project()
 end
 
 local function handle_update()
+    old_name = get_name()
     close_window()
-    update.update_project(get_name())
+    update.update_project(old_name)
     open_window()
     local old_pos = position
     position = 0
