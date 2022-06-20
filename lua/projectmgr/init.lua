@@ -67,7 +67,6 @@ end
 local function delete_project()
     local str = api.nvim_get_current_line()
     local name = str:match'^%s*(.*)'
-    print("--"..name)
     update.delete_project(name)
     update_view(0)
 end
@@ -91,6 +90,7 @@ local function set_mappings()
         -- [']'] = 'update_view(1)',
         ['<cr>'] = 'open_project()',
         ['x'] = 'delete_project()',
+        ['d'] = 'delete_project()',
         -- h = 'update_view(-1)',
         -- l = 'update_view(1)',
         ['q'] = 'close_window()',
@@ -102,7 +102,7 @@ local function set_mappings()
         })
     end
     local other_chars = {
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z'
+        'a', 'b', 'c', 'e', 'f', 'g', 'i', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z'
     }
     for _,v in ipairs(other_chars) do
         api.nvim_buf_set_keymap(buf, 'n', v, '', { nowait = true, noremap = true, silent = true })
