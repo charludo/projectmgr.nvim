@@ -121,7 +121,7 @@ end
 
 local function handle_update()
     local old_name = get_name()
-    local old_pos = api.nvim_win_get_cursor()
+    local old_pos = api.nvim_win_get_cursor(0)
 
     close_window()
     update.update_project(old_name)
