@@ -156,8 +156,7 @@ M.show_selection = show_selection
 M.open_project = open_project
 M.delete_project = delete_project
 M.close_window = close_window
-M.create_project = update.create_project
-M.update_project = handle_update
+M.handle_update = handle_update
 M.handle_create = handle_create
 
 return M

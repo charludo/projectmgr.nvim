@@ -21,8 +21,8 @@ let s:lua_rocks_deps_loc =  expand("<sfile>:h:r") . "/../lua/projectmgr/deps"
 exe "lua package.path = package.path .. ';" . s:lua_rocks_deps_loc . "/lua-?/init.lua'"
 
 " Exposes the plugin's functions for use as commands in Neovim.
-command! -nargs=0 Project lua require("projectmgr").show_selection()
-command! -nargs=0 ProjectCreate lua require("projectmgr").create_project()
+command! -nargs=0 ProjectMgr lua require("projectmgr").show_selection()
+" command! -nargs=0 ProjectCreate lua require("projectmgr").create_project()
 
 let &cpo = s:save_cpo " restore user coptions
 unlet s:save_cpo
