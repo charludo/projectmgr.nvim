@@ -66,47 +66,6 @@ local function close_window()
     api.nvim_win_close(win, true)
 end
 
-local function get_name()
-    local str = api.nvim_get_current_line()
-    local name = str:match'^%s*(.*)'
-    return name
-end
-
-local function delete_project()
-    update.delete_project(get_name())
-    update_view(0)
-end
-
-local function open_project()
-    close_window()
-    local new_wd,command = fetch.get_single_project(get_name())
-    if new_wd ~= nil then
-        api.nvim_command('cd '..new_wd)
-        if command ~= nil then
-            api.nvim_command(command)
-        end
-    end
-end
-
-local function handle_update()
-    local old_name = get_name()
-    local old_pos = api.nvim_win_get_cursor()
-
-    close_window()
-    update.update_project(old_name)
-    open_window()
-
-    api.nvim_win_set_cursor(win, old_pos)
-end
-
-local function handle_create()
-    close_window()
-    update.create_project()
-    open_window()
-    api.nvim_win_set_cursor(win, {4, 0})
-end
-
-
 local function set_mappings()
     local mappings = {
         -- ['['] = 'update_view(-1)',
@@ -136,6 +95,51 @@ local function set_mappings()
         api.nvim_buf_set_keymap(buf, 'n', v:upper(), '', { nowait = true, noremap = true, silent = true })
         api.nvim_buf_set_keymap(buf, 'n',  '<c-'..v..'>', '', { nowait = true, noremap = true, silent = true })
     end
+end
+
+local function get_name()
+    local str = api.nvim_get_current_line()
+    local name = str:match'^%s*(.*)'
+    return name
+end
+
+local function delete_project()
+    update.delete_project(get_name())
+    update_view(0)
+end
+
+local function open_project()
+    close_window()
+    local new_wd,command = fetch.get_single_project(get_name())
+    if new_wd ~= nil then
+        api.nvim_command('cd '..new_wd)
+        if command ~= nil then
+            api.nvim_command(command)
+        end
+    end
+end
+
+local function handle_update()
+    local old_name = get_name()
+    local old_pos = api.nvim_win_get_cursor()
+
+    close_window()
+    update.update_project(old_name)
+    
+    open_window()
+    set_mappings()
+    update_view(0)
+    api.nvim_win_set_cursor(win, old_pos)
+end
+
+local function handle_create()
+    close_window()
+    update.create_project()
+    
+    open_window()
+    set_mappings()
+    update_view(0)
+    api.nvim_win_set_cursor(win, {4, 0})
 end
 
 local function show_selection()
