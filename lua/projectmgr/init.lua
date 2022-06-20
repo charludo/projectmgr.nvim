@@ -90,8 +90,8 @@ end
 
 local function handle_update()
     close_window()
-    open_window()
     update.update_project(get_name())
+    open_window()
     local old_pos = position
     position = 0
     update_view(old_pos)
@@ -99,8 +99,8 @@ end
 
 local function handle_create()
     close_window()
-    open_window()
     update.create_project()
+    open_window()
     position = 0
     update_view(position)
 end
