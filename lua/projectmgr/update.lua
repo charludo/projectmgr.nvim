@@ -23,7 +23,7 @@ function M.create_project()
 
     local command = ""
     command = vim.fn.input("Startup Command (opional): ")
-    print("\rCreated new project.")
+    vim.api.nvim_command("echo Created new project.")
 
     local db = sqlite.open(db_path)
     db:exec("INSERT INTO projects (name, path, command) VALUES ('" .. name .. "', '" .. path .. "', '" .. command .. "');")
@@ -46,7 +46,7 @@ function M.update_project(old_name)
 
     local command = ""
     command = vim.fn.input("Startup Command (opional): ", old_command)
-    print("\rUpdated project.")
+    vim.api.nvim_command("echo Updated project.")
 
     local db = sqlite.open(db_path)
     db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', command='"..command.."' WHERE name=='"..old_name.."';")
