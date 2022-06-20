@@ -14,7 +14,7 @@ local function open_window()
     api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
     api.nvim_buf_set_option(buf, 'filetype', 'projectmgr')
 
-    -- get dimensions
+-- get dimensions
     local width = api.nvim_get_option("columns")
     local height = api.nvim_get_option("lines")
 
@@ -109,8 +109,8 @@ local function delete_project()
 end
 
 local function open_project()
-    close_window()
     local new_wd,command = fetch.get_single_project(get_name())
+    close_window()
     if new_wd ~= nil then
         api.nvim_command('cd '..new_wd)
         if command ~= nil then
@@ -121,7 +121,7 @@ end
 
 local function handle_update()
     local old_name = get_name()
-    local old_pos = api.nvim_win_get_cursor(0)
+    local old_pos = api.nvim_win_get_cursor()
 
     close_window()
     update.update_project(old_name)
