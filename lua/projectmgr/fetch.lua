@@ -9,12 +9,10 @@ local M = {}
 function M.get_projects()
     local db = sqlite.open(db_path)
 
-    local db_results, nrow = db:exec("SELECT * FROM projects ORDER BY name;")
-
     local results = {}
 
-    for i=1, nrow do
-        results[i] = db_results.name[i]
+    for i in db:nrow("SELECT * FROM projects ORDER BY name;") do
+        table.insert(results, i.name)
     end
 
     db:close()
