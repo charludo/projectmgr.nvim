@@ -65,8 +65,8 @@ local function update_view(direction)
 
     if count_entries>0 then
         api.nvim_win_set_cursor(win, {4, 0})
-    else
-        api.nvim_win_set_cursor(win, {0, 0})
+    -- else
+        -- api.nvim_win_set_cursor(win, {0, 0})
     end
 end
 
