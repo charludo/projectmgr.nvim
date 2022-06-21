@@ -54,7 +54,7 @@ function M.update_project(old_name)
     command = vim.fn.input("Startup Command (opional): ", old_command)
 
     local db = sqlite.open(db_path)
-    db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', command='"..command.."' WHERE name=='"..old_name.."';")
+    local _ = db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', command='"..command.."' WHERE name=='"..old_name.."';")
     db:close()
 
     vim.api.nvim_command("echo '\r Updated project.                                                                                                                         '")
