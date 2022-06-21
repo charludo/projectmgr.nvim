@@ -25,7 +25,7 @@ function M.get_single_project(name)
     local result = db:nrows("SELECT path, command FROM projects WHERE name=='"..name.."';")
     db:close()
 
-    for i in result do
+    for _,i in pairs(result) do
         return i.path, i.command
     end
 end
