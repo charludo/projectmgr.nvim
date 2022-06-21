@@ -11,7 +11,7 @@ function M.get_projects()
 
     local results = {}
 
-    for i in db:nrow("SELECT * FROM projects ORDER BY name;") do
+    for i in db:nrows("SELECT * FROM projects ORDER BY name;") do
         table.insert(results, i.name)
     end
 
