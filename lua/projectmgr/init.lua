@@ -151,7 +151,7 @@ local function open_project()
 
             if is_git then
                 local _ = io.popen("git fetch && git pull")
-                print("git repo found, fetching && pulling...")
+                print("[ProjectMgr] git repo found, fetching && pulling...")
             end
         end
 
