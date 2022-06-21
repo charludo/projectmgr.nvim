@@ -140,11 +140,16 @@ local function open_project()
 
         -- check if autogit is set and if inside worktree
         if M.config.autogit then
+            local is_git = false
             local handle = io.popen("git rev-parse --is-inside-work-tree")
             if handle ~= nil then
                 local check_result = handle:read("*a")
-                print(check_result)
+                if string:find(check_result, "true") then is_git = true end
                 handle:close()
+            end
+
+            if is_git then
+                os.execute("git fetch && git pull")
             end
         end
         if command ~= nil then
