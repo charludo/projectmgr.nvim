@@ -6,6 +6,11 @@ local db_path = string.match(debug.getinfo(1,"S").source, "^@(.+/)[%a%-%d_]+%.lu
 -- Creates an object for the module.
 local M = {}
 
+function M.prepare_db()
+    local db = sqlite.open(db_path)
+    db:exec("create table IF NOT EXISTS projects(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, path TEXT NOT NULL, command TEXT);")
+    db:close()
+end
 -- Inserts a new project, prompting the
 -- user to enter relevant data.
 function M.create_project()

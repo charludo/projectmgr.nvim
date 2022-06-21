@@ -150,6 +150,7 @@ local function handle_create()
 end
 
 local function show_selection()
+    update.prepare_db()
     position = 0
     open_window()
     set_mappings()
