@@ -144,7 +144,7 @@ local function open_project()
             local handle = io.popen("git rev-parse --is-inside-work-tree")
             if handle ~= nil then
                 local check_result = handle:read("*a")
-                if string:find(check_result, "true") then is_git = true end
+                if string.find(check_result, "true") then is_git = true end
                 handle:close()
             end
 
