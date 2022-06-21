@@ -150,7 +150,7 @@ local function open_project()
             end
 
             if is_git then
-                os.execute("$(git fetch && git pull)")
+                io.popen("$(git fetch && git pull)")
             end
         end
 
