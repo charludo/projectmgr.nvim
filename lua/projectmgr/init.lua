@@ -52,14 +52,22 @@ local function update_view(direction)
     api.nvim_buf_set_option(buf, 'modifiable', true)
     position = position + direction
     if position < 1 then position = 1 end
+    local count_entries = 0
 
     local flattened = fetch.get_projects()
     for k,_ in pairs(flattened) do
         flattened[k] = '  '..flattened[k]
+        count_entries = count_entries + 1
     end
 
     api.nvim_buf_set_lines(buf, 3, -1, false, flattened)
     api.nvim_buf_set_option(buf, 'modifiable', false)
+
+    if count_entries>0 then
+        api.nvim_win_set_cursor(win, {4, 0})
+    else
+        api.nvim_win_set_cursor(win, {0, 0})
+    end
 end
 
 local function close_window()
@@ -139,7 +147,6 @@ local function handle_create()
     open_window()
     set_mappings()
     update_view(0)
-    api.nvim_win_set_cursor(win, {4, 0})
 end
 
 local function show_selection()
@@ -147,7 +154,6 @@ local function show_selection()
     open_window()
     set_mappings()
     update_view(0)
-    api.nvim_win_set_cursor(win, {4, 0})
 end
 
 -- Creates an object for the module. All of the module's
