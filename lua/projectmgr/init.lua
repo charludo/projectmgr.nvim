@@ -11,13 +11,13 @@ local position = 0
 local M = {}
 
 local default_config = {
-    test_option = false,
+    autogit = false,
 }
 
 function M.setup(config)
     config = config or {}
     vim.validate {
-        test_option  = { config.test_option, 'b', true },
+        autogit  = { config.autogit, 'b', true },
     }
 
     M.config = vim.tbl_extend("keep", config, default_config)
@@ -137,6 +137,12 @@ local function open_project()
     close_window()
     if new_wd ~= nil then
         api.nvim_command('cd '..new_wd)
+
+        -- check if autogit is set and if inside worktree
+        if M.config.autogit then
+            local check_result = api.nvim_command("!git rev-parse --is-inside-work-tree")
+            print(check_result)
+        end
         if command ~= nil then
             api.nvim_command(command)
         end
@@ -171,9 +177,6 @@ local function show_selection()
     open_window()
     set_mappings()
     update_view(0)
-    if M.config.test_option then
-        print("TEST OPTION")
-    end
 end
 
 -- Creates an object for the module. All of the module's
