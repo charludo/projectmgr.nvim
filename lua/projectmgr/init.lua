@@ -8,6 +8,22 @@ local api = vim.api
 local buf, win
 local position = 0
 
+local M = {}
+
+local default_config = {
+    test_option = false,
+}
+
+function M.setup(config)
+    config = config or {}
+    vim.validate {
+        test_option  = { config.test_option, 'b', true },
+    }
+
+    M.config = vim.tbl_extend("keep", config, default_config)
+end
+
+
 local function open_window()
     buf = api.nvim_create_buf(false, true)
 
@@ -155,12 +171,14 @@ local function show_selection()
     open_window()
     set_mappings()
     update_view(0)
+    if M.config.test_option then
+        print("TEST OPTION")
+    end
 end
 
 -- Creates an object for the module. All of the module's
 -- functions are associated with this object, which is
 -- returned when the module is called with `require`.
-local M = {}
 
 -- Routes calls made to this module to functions in the
 -- plugin's other modules.
