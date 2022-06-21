@@ -30,7 +30,9 @@ function M.create_project()
     command = vim.fn.input("Startup Command (opional): ")
 
     local db = sqlite.open(db_path)
-    db:exec("INSERT INTO projects (name, path, command) VALUES ('" .. name .. "', '" .. path .. "', '" .. command .. "');")
+    local preped = db:prepare("INSERT INTO projects (name, path, command) VALUES ('" .. name .. "', '" .. path .. "', '" .. command .. "');")
+    db:exec(preped)
+    preped:finalize()
     db:close()
 
     vim.api.nvim_command("echo '\r Created new project.                                                                                                                        '")
