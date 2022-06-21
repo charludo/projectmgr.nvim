@@ -1,5 +1,5 @@
 -- Imports the module for handling SQLite.
-local sqlite = require("ljsqlite3")
+local sqlite = require("lsqlite3")
 local db_path = string.match(debug.getinfo(1,"S").source, "^@(.+/)[%a%-%d_]+%.lua$"):gsub("lua/projectmgr/", "projects.db")
 -- Creates an object for the module.
 local M = {}
