@@ -33,7 +33,7 @@ function M.create_project()
     db:exec("INSERT INTO projects (name, path, command) VALUES ('" .. name .. "', '" .. path .. "', '" .. command .. "');")
     db:close()
 
-    vim.api.nvim_command("echo '\r Created new project.'")
+    vim.api.nvim_command("echo '\r Created new project.                                                                                                                        '")
 end
 
 function M.update_project(old_name)
@@ -57,7 +57,7 @@ function M.update_project(old_name)
     db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', command='"..command.."' WHERE name=='"..old_name.."';")
     db:close()
 
-    vim.api.nvim_command("echo '\r Updated project.'")
+    vim.api.nvim_command("echo '\r Updated project.                                                                                                                         '")
 end
 
 
