@@ -136,6 +136,7 @@ local function open_project()
     local new_wd,command = fetch.get_single_project(get_name())
     close_window()
     if new_wd ~= nil then
+        -- change to project dir
         api.nvim_command('cd '..new_wd)
 
         -- check if autogit is set and if inside worktree
@@ -149,9 +150,11 @@ local function open_project()
             end
 
             if is_git then
-                os.execute("git fetch && git pull")
+                os.execute("$(git fetch && git pull)")
             end
         end
+
+        -- execute custom command
         if command ~= nil then
             api.nvim_command(command)
         end
