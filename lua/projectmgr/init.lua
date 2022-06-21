@@ -140,7 +140,7 @@ local function open_project()
 
         -- check if autogit is set and if inside worktree
         if M.config.autogit then
-            local check_result = api.nvim_command("!git rev-parse --is-inside-work-tree")
+            local check_result = os.execute("git rev-parse --is-inside-work-tree")
             print(check_result)
         end
         if command ~= nil then
