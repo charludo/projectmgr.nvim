@@ -21,7 +21,11 @@ end
 
 function M.get_single_project(name)
     local db = sqlite.open(db_path)
-    for i in db:nrows("SELECT path, command FROM projects WHERE name=='"..name.."';") do
+
+    local result = db:nrows("SELECT path, command FROM projects WHERE name=='"..name.."';")
+    db:close()
+
+    for i in result do
         return i.path, i.command
     end
 end
