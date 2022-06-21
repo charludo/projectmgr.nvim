@@ -28,13 +28,14 @@ The demo first shows the creation of a new project, then the opening of the same
 
 ```lua
 use {
-  'charludo/projectmgr.nvim'
+  'charludo/projectmgr.nvim',
+  rocks = {'lsqlite3'},
 }
 ```
 
 ### With other plugin managers
 
-Not tested, sorry. Should work as usual though :)
+Not tested, sorry. Should work as usual though - just remember to manually install the dependency (lsqlite3) through luarocks.
 
 ## Commands & Functions
 
