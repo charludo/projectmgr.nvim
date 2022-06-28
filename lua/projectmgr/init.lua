@@ -186,6 +186,9 @@ local function open_project(reopen)
 
         new_wd,command,_ = fetch.get_single_project(get_name())
         close_window()
+    elseif reopen == "-1" then
+        -- no current project exists, and we are not at the selection screen
+        return
     else
         -- IF: called by startup function
         new_wd,command,_ = fetch.get_single_project(fetch.get_current_project())
@@ -273,7 +276,11 @@ end
 local function startup()
     update.prepare_db()
     if M.config.reopen then
-        open_project(fetch.get_current_project())
+        local current = fetch.get_current_project()
+        if current == nil then
+            current = "-1"
+        end
+        open_project(current)
     end
 end
 
