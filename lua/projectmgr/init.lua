@@ -214,8 +214,8 @@ local function open_project(reopen)
         -- check for session and shada file names;
         -- if they exist, source them
         if M.config.session.enabled and file_exists(M.config.session.file) then
+            api.nvim_command('so '..M.config.session)
             vim.api.nvim_exec([[
-                execute 'so '..M.config.session
                 if bufexists(1)
                 for l in range(1, bufnr('$'))
                     if bufwinnr(l) == -1
