@@ -19,18 +19,35 @@ function M.get_projects()
     return results
 end
 
-function M.get_single_project(name)
+function M.get_current_project()
     local db = sqlite.open(db_path)
 
-    local path, command = nil, nil
+    local name = nil
 
-    for i in db:nrows("SELECT path, command FROM projects WHERE name=='"..name.."';") do
-        path, command = i.path, i.command
+    for i in db:nrows("SELECT name FROM projects WHERE current=='1';") do
+        name = i.name
     end
 
     db:close()
 
-    return path, command
+    return name
+end
+
+function M.get_single_project(name)
+    if name == nil then
+        return nil, nil, nil
+    end
+    local db = sqlite.open(db_path)
+
+    local path, commandstart, commandexit = nil, nil, nil
+
+    for i in db:nrows("SELECT path, commandstart, commandexit FROM projects WHERE name=='"..name.."';") do
+        path, commandstart, commandexit = i.path, i.commandstart, i.commandexit
+    end
+
+    db:close()
+
+    return path, commandstart, commandexit
 end
 
 return M

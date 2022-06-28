@@ -12,12 +12,24 @@ local M = {}
 
 local default_config = {
     autogit = false,
+    reopen = true,
+    session = {
+        enabled = true,
+        file = "Session.vim",
+    },
+    shada = {
+        enabled = true,
+        file = "main.shada",
+    },
 }
 
 function M.setup(config)
     config = config or {}
     vim.validate {
         autogit  = { config.autogit, 'b', true },
+        reopen = { config.reopen, 'b', true },
+        session = { config.session, 't', true},
+        shada = { config.shada, 't', true},
     }
 
     M.config = vim.tbl_extend("keep", config, default_config)
@@ -121,6 +133,11 @@ local function set_mappings()
     end
 end
 
+local function file_exists(name)
+    local f = io.open(name, "r")
+    if f~=nil then io.close(f) return true else return false end
+end
+
 local function get_name()
     local str = api.nvim_get_current_line()
     local name = str:match'^%s*(.*)'
@@ -132,9 +149,42 @@ local function delete_project()
     update_view(0)
 end
 
-local function open_project()
-    local new_wd,command = fetch.get_single_project(get_name())
-    close_window()
+local function close_project()
+    local _,_,command = fetch.get_single_project(fetch.get_current_project())
+
+    -- if so configured, save Session and shada
+    if M.config.session.enabled then
+        vim.api.nvim_exec([[
+            set sessionoptions-=options
+            execute 'mksession! '..M.config.session.file
+        ]], false)
+    end
+    if M.config.shada.enabled then
+        api.nvim_command('wshada! '..M.config.shada.file)
+    end
+    -- execute custom exit command
+    if command ~= nil then
+        api.nvim(command)
+    end
+end
+
+local function open_project(reopen)
+    local new_wd,command = nil,nil
+
+    if reopen == nil then
+        -- IF: opened via selection screen
+        -- first: close the current project
+        close_project()
+        -- then: set the project about to be opened as the new current
+        update.set_current_project(get_name())
+
+        new_wd,command,_ = fetch.get_single_project(get_name())
+        close_window()
+    else
+        -- IF: called by startup function
+        new_wd,command,_ = fetch.get_single_project(fetch.get_current_project())
+    end
+
     if new_wd ~= nil then
         -- change to project dir
         api.nvim_command('cd '..new_wd)
@@ -153,6 +203,25 @@ local function open_project()
                 local _ = io.popen("git fetch && git pull")
                 print("[ProjectMgr] git repo found, fetching && pulling...")
             end
+        end
+
+        -- check for session and shada file names;
+        -- if they exist, source them
+        if M.config.session.enabled and file_exists(M.config.session.file) then
+            vim.api.nvim_exec([[
+                execute 'so '..M.config.session
+                if bufexists(1)
+                for l in range(1, bufnr('$'))
+                    if bufwinnr(l) == -1
+                    exec 'sbuffer ' . l
+                    endif
+                endfor
+                endif
+            ]], false)
+        end
+
+        if M.config.shada.enabled and file_exists(M.config.shada) then
+            api.nvim_command('rshada '..M.config.shada.file)
         end
 
         -- execute custom command
@@ -185,12 +254,32 @@ local function handle_create()
 end
 
 local function show_selection()
-    update.prepare_db()
     position = 0
     open_window()
     set_mappings()
     update_view(0)
 end
+
+local function shutdown()
+    close_project()
+end
+
+local function startup()
+    update.prepare_db()
+    if M.config.reopen then
+        open_project(fetch.get_current_project())
+    end
+end
+
+vim.api.nvim_exec([[
+  augroup AutoSession
+   au!
+   au VimLeavePre * lua require("projectmgr").shutdown()
+   au VimEnter * lua require("projectmgr").startup()
+  augroup END
+]], false)
+
+
 
 -- Creates an object for the module. All of the module's
 -- functions are associated with this object, which is
@@ -204,5 +293,6 @@ M.delete_project = delete_project
 M.close_window = close_window
 M.handle_update = handle_update
 M.handle_create = handle_create
-
+M.startup = startup
+M.shutdown = shutdown
 return M

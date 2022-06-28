@@ -8,9 +8,29 @@ local M = {}
 
 function M.prepare_db()
     local db = sqlite.open(db_path)
-    db:exec("create table IF NOT EXISTS projects(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, path TEXT NOT NULL, command TEXT);")
+    db:exec("create table IF NOT EXISTS projects(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, path TEXT NOT NULL, commandstart TEXT, commandexit TEXT, current INTEGER DEFAULT '0' NOT NULL);")
+    
+    -- check if table is in new format; if not, migrate
+    local count = nil
+    for i in db:nrows("SELECT COUNT(*) AS CNTREC FROM pragma_table_info('projects') WHERE name='commandstart';") do
+        count = i.CNTREC
+    end
+    if count == 0 then
+        db:exec("ALTER TABLE projects RENAME COLUMN command TO commandstart;")
+        db:exec("ALTER TABLE projects ADD commandexit TEXT, current INTEGER DEFAULT '0' NOT NULL;")
+    end
     db:close()
 end
+
+function M.set_current_project(name)
+    local db = sqlite.open(db_path)
+
+    local _ = db:exec("UPDATE projects SET current='0';")
+    local _ = db:exec("UPDTAE projects SET current='1' WHERE name=='"..name.."';")
+
+    db:close()
+end
+
 -- Inserts a new project, prompting the
 -- user to enter relevant data.
 function M.create_project()
@@ -26,18 +46,21 @@ function M.create_project()
         print("")
     until (path ~= "") and (string.len(path) <= 150)
 
-    local command = ""
-    command = vim.fn.input("Startup Command (opional): ")
+    local commandstart = ""
+    commandstart = vim.fn.input("Startup Command (opional): ")
+
+    local commandexit = ""
+    commandexit = vim.fn.input("Exit Command (optional): ")
 
     local db = sqlite.open(db_path)
-    local _ = db:exec("INSERT INTO projects (name, path, command) VALUES ('" .. name .. "', '" .. path .. "', '" .. command .. "');")
+    local _ = db:exec("INSERT INTO projects (name, path, commandstart, commandexit) VALUES ('" .. name .. "', '" .. path .. "', '" .. commandstart .. "', '" .. commandexit .. "');")
     db:close()
 
     vim.api.nvim_command("echo '\r Created new project.                                                                                                                        '")
 end
 
 function M.update_project(old_name)
-    local old_path, old_command = fetch.get_single_project(old_name)
+    local old_path, old_commandstart, old_commandexit = fetch.get_single_project(old_name)
     local name = ""
     repeat
         name = vim.fn.input("Project Name: ", old_name)
@@ -50,11 +73,14 @@ function M.update_project(old_name)
         print("")
     until (path ~= "") and (string.len(path) <= 150)
 
-    local command = ""
-    command = vim.fn.input("Startup Command (opional): ", old_command)
+    local commandstart = ""
+    commandstart = vim.fn.input("Startup Command (opional): ", old_commandstart)
+
+    local commandexit = ""
+    commandexit = vim.fn.input("Exit Command (optional): ", old_commandexit)
 
     local db = sqlite.open(db_path)
-    local _ = db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', command='"..command.."' WHERE name=='"..old_name.."';")
+    local _ = db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', commandstart='"..commandstart.."', '" ..commandexit.. "' WHERE name=='"..old_name.."';")
     db:close()
 
     vim.api.nvim_command("echo '\r Updated project.                                                                                                                         '")
