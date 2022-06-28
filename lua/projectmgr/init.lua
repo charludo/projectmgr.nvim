@@ -34,7 +34,7 @@ function M.setup(config)
 
     M.config = vim.tbl_extend("keep", config, default_config)
 
-    vim.api.nvim_command([[
+    vim.api.nvim_exec([[
         augroup ProjectMgrGroup
             autocmd!
             autocmd VimEnter * lua require("projectmgr").startup()
