@@ -271,13 +271,7 @@ local function startup()
     end
 end
 
-vim.api.nvim_exec([[
-  augroup AutoSession
-   au!
-   au VimLeavePre * lua require("projectmgr").shutdown()
-   au VimEnter * lua require("projectmgr").startup()
-  augroup END
-]], false)
+
 
 
 
