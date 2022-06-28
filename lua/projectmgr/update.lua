@@ -9,12 +9,13 @@ local M = {}
 function M.prepare_db()
     local db = sqlite.open(db_path)
     db:exec("create table IF NOT EXISTS projects(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, path TEXT NOT NULL, commandstart TEXT, commandexit TEXT, current INTEGER DEFAULT '0' NOT NULL);")
-    
+
     -- check if table is in new format; if not, migrate
     local count = nil
     for i in db:nrows("SELECT COUNT(*) AS CNTREC FROM pragma_table_info('projects') WHERE name='commandstart';") do
         count = i.CNTREC
     end
+    print("COUNT: "..count)
     if count == 0 then
         db:exec("ALTER TABLE projects RENAME COLUMN command TO commandstart;")
         db:exec("ALTER TABLE projects ADD commandexit TEXT, current INTEGER DEFAULT '0' NOT NULL;")

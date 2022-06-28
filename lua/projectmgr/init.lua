@@ -274,7 +274,6 @@ end
 
 local function startup()
     update.prepare_db()
-    print("Prepared DB.")
     if M.config.reopen then
         open_project(fetch.get_current_project())
     end
