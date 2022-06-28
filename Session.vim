@@ -9,13 +9,10 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 let s:shortmess_save = &shortmess
 set shortmess=aoO
-badd +74 ~/Projekte/projectmgr.nvim/lua/projectmgr/update.lua
-badd +61 ~/Projekte/projectmgr.nvim/lua/projectmgr/init.lua
-badd +8 ~/Projekte/projectmgr.nvim/lua/projectmgr/fetch.lua
-badd +29 ~/.config/nvim/lua/custom/plugins/init.lua
+badd +226 ~/Projekte/projectmgr.nvim/lua/projectmgr/init.lua
 argglobal
 %argdel
-edit ~/.config/nvim/lua/custom/plugins/init.lua
+edit ~/Projekte/projectmgr.nvim/lua/projectmgr/init.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -32,12 +29,12 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 35 + 140) / 280)
-exe 'vert 2resize ' . ((&columns * 244 + 140) / 280)
+exe 'vert 1resize ' . ((&columns * 35 + 138) / 276)
+exe 'vert 2resize ' . ((&columns * 240 + 138) / 276)
 argglobal
 enew
 file NvimTree_1
-balt ~/Projekte/projectmgr.nvim/lua/projectmgr/update.lua
+balt ~/Projekte/projectmgr.nvim/lua/projectmgr/init.lua
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -59,16 +56,16 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 29 - ((28 * winheight(0) + 34) / 69)
+let s:l = 226 - ((48 * winheight(0) + 34) / 68)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 29
-normal! 030|
+keepjumps 226
+normal! 022|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 35 + 140) / 280)
-exe 'vert 2resize ' . ((&columns * 244 + 140) / 280)
+exe 'vert 1resize ' . ((&columns * 35 + 138) / 276)
+exe 'vert 2resize ' . ((&columns * 240 + 138) / 276)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -84,6 +81,7 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :
