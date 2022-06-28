@@ -12,13 +12,13 @@ local M = {}
 
 local default_config = {
     autogit = false,
-    reopen = true,
+    reopen = false,
     session = {
         enabled = true,
         file = "Session.vim",
     },
     shada = {
-        enabled = true,
+        enabled = false,
         file = "main.shada",
     },
 }
