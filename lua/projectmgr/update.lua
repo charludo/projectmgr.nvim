@@ -15,10 +15,10 @@ function M.prepare_db()
     for i in db:nrows("SELECT COUNT(*) AS CNTREC FROM pragma_table_info('projects') WHERE name='commandstart';") do
         count = i.CNTREC
     end
-    print("COUNT: "..db_path)
     if count == 0 then
         db:exec("ALTER TABLE projects RENAME COLUMN command TO commandstart;")
-        db:exec("ALTER TABLE projects ADD commandexit TEXT, current INTEGER DEFAULT '0' NOT NULL;")
+        db:exec("ALTER TABLE projects ADD commandexit TEXT;")
+        db:exec("ALTER TABLE projects ADD current INTEGER DEFAULT '0' NOT NULL;")
     end
     db:close()
 end
