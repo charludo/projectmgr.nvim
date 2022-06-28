@@ -20,7 +20,7 @@ hi def link ProjectmgrHeader      Number
 let s:lua_rocks_deps_loc =  expand("<sfile>:h:r") . "/../lua/projectmgr/deps"
 exe "lua package.path = package.path .. ';" . s:lua_rocks_deps_loc . "/lua-?/init.lua'"
 
-lua require("projectmgr").startup()
+exe 'lua require("projectmgr").startup()'
 augroup AutoSession
    au!
    au VimLeavePre * lua require("projectmgr").shutdown()
