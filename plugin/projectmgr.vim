@@ -20,12 +20,6 @@ hi def link ProjectmgrHeader      Number
 let s:lua_rocks_deps_loc =  expand("<sfile>:h:r") . "/../lua/projectmgr/deps"
 exe "lua package.path = package.path .. ';" . s:lua_rocks_deps_loc . "/lua-?/init.lua'"
 
-exe 'lua require("projectmgr").startup()'
-augroup AutoSession
-   au!
-   au VimLeavePre * lua require("projectmgr").shutdown()
-augroup END
-
 " Exposes the plugin's functions for use as commands in Neovim.
 command! -nargs=0 ProjectMgr lua require("projectmgr").show_selection()
 " command! -nargs=0 ProjectCreate lua require("projectmgr").create_project()
