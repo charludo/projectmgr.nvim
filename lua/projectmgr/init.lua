@@ -208,6 +208,7 @@ local function open_project(reopen)
         -- IF: opened via selection screen
         -- first: close the current project
         close_project()
+        api.nvim_command("echo test")
         -- then: set the project about to be opened as the new current
         update.set_current_project(get_name())
 
