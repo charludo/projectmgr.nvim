@@ -187,8 +187,8 @@ local function close_project()
 
     -- if so configured, save Session and shada
     if M.config.session.enabled then
-        -- api.nvim_command('set sessionoptions-=options')
-        api.nvim_command('set sessionoptions+=localoptions')
+        api.nvim_command('set sessionoptions-=options')
+        -- api.nvim_command('set sessionoptions+=localoptions')
         api.nvim_command('mksession! '..M.config.session.file)
     end
     if M.config.shada.enabled then
