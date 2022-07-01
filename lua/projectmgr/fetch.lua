@@ -24,14 +24,28 @@ function M.get_current_project()
 
     local name = nil
 
-    local pwd = vim.fn.getcwd()
-    for i in db:nrows("SELECT name FROM projects WHERE instr(path, '"..pwd.."');") do
+    for i in db:nrows("SELECT name FROM projects WHERE current=='1';") do
         name = i.name
     end
 
     db:close()
 
     return name
+end
+
+function M.is_in_project()
+    local db = sqlite.open(db_path)
+
+    local is_in = false
+
+    local pwd = vim.fn.getcwd()
+    for _ in db:nrows("SELECT name FROM projects WHERE instr(path, '"..pwd.."');") do
+        is_in = true
+    end
+
+    db:close()
+
+    return is_in
 end
 
 function M.get_single_project(name)

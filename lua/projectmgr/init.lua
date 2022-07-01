@@ -179,6 +179,10 @@ local function execute_script(filename)
 end
 
 local function close_project()
+    -- check if we even are in project dir
+    if not fetch.is_in_project() then
+        return
+    end
     local _,_,command = fetch.get_single_project(fetch.get_current_project())
 
     -- if so configured, save Session and shada
