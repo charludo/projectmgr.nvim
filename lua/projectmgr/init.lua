@@ -43,7 +43,7 @@ function M.setup(config)
     vim.api.nvim_exec([[
         augroup ProjectMgrGroup
             autocmd!
-            autocmd ColorScheme * lua require("projectmgr").startup()
+            autocmd VimEnter * lua require("projectmgr").startup()
             autocmd VimLeavePre * lua require("projectmgr").shutdown()
         augroup END
     ]], false)
