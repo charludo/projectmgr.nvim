@@ -168,7 +168,7 @@ local function execute_command(command)
     if command:find('^!') ~= nil then
         local _ = io.popen(string.sub(command,2))
     else
-        api.nvim(command)
+        api.vim(command)
     end
 end
 
