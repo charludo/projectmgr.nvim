@@ -247,11 +247,13 @@ local function open_project(reopen)
             api.nvim_command('so '..M.config.session.file)
             vim.api.nvim_exec([[
                 if bufexists(1)
-                for l in range(1, bufnr('$'))
-                    if bufwinnr(l) == -1
-                    exec 'sbuffer ' . l
-                    endif
-                endfor
+                    for l in range(1, bufnr('$'))
+                        if bufexists(l)
+                            if bufwinnr(l) == -1
+                                exec 'sbuffer ' . l
+                            endif
+                        endif
+                    endfor
                 endif
             ]], false)
         end
