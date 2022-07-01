@@ -21,6 +21,11 @@ local default_config = {
         enabled = false,
         file = "main.shada",
     },
+    scripts = {
+        enabled = true,
+        file_startup = "startup.sh",
+        file_shutdown = "shutdown.sh",
+    },
 }
 
 function M.setup(config)
@@ -30,6 +35,7 @@ function M.setup(config)
         reopen = { config.reopen, 'b', true },
         session = { config.session, 't', true},
         shada = { config.shada, 't', true},
+        scripts = { config.scripts, 't', true},
     }
 
     M.config = vim.tbl_extend("keep", config, default_config)
@@ -157,6 +163,21 @@ local function delete_project()
     update_view(0)
 end
 
+local function execute_command(command)
+    if command == nil then return end
+    if command:find('^!') ~= nil then
+        local _ = io.popen(string.sub(command,2))
+    else
+        api.nvim(command)
+    end
+end
+
+local function execute_script(filename)
+    if file_exists(filename) then
+        local _ = io.popen('./'..filename)
+    end
+end
+
 local function close_project()
     local _,_,command = fetch.get_single_project(fetch.get_current_project())
 
@@ -169,13 +190,15 @@ local function close_project()
         api.nvim_command('wshada! '..M.config.shada.file)
     end
     -- execute custom exit command
-    if command ~= nil then
-        api.nvim(command)
-    end
+    execute_command(command)
+
+    -- execute shutdown script
+    execute_script(M.config.scripts.file_shutdown)
+
 end
 
 local function open_project(reopen)
-    local new_wd,command = nil,nil
+    local new_wd,command,_ = nil,nil,nil
 
     if reopen == nil then
         -- IF: opened via selection screen
@@ -234,9 +257,10 @@ local function open_project(reopen)
         end
 
         -- execute custom command
-        if command ~= nil then
-            api.nvim_command(command)
-        end
+        execute_command(command)
+
+        -- execute startup script
+        execute_script(M.config.scripts.file_startup)
     end
 end
 

@@ -24,7 +24,8 @@ function M.get_current_project()
 
     local name = nil
 
-    for i in db:nrows("SELECT name FROM projects WHERE current==1;") do
+    local pwd = vim.fn.getcwd()
+    for i in db:nrows("SELECT name FROM projects WHERE instr(path, '"..pwd.."');") do
         name = i.name
     end
 
