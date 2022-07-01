@@ -245,17 +245,17 @@ local function open_project(reopen)
         -- if they exist, source them
         if M.config.session.enabled and file_exists(M.config.session.file) then
             api.nvim_command('so '..M.config.session.file)
-            vim.api.nvim_exec([[
-                if bufexists(1)
-                    for l in range(1, bufnr('$'))
-                        if bufexists(l)
-                            if bufwinnr(l) == -1
-                                exec 'sbuffer ' . l
-                            endif
-                        endif
-                    endfor
-                endif
-            ]], false)
+            -- vim.api.nvim_exec([[
+            --     if bufexists(1)
+            --         for l in range(1, bufnr('$'))
+            --             if bufexists(l)
+            --                 if bufwinnr(l) == -1
+            --                     exec 'sbuffer ' . l
+            --                 endif
+            --             endif
+            --         endfor
+            --     endif
+            -- ]], false)
         end
 
         if M.config.shada.enabled and file_exists(M.config.shada) then
