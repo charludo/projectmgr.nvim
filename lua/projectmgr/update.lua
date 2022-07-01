@@ -26,9 +26,10 @@ end
 function M.set_current_project(name)
     local db = sqlite.open(db_path)
 
-    local _ = db:exec("UPDATE projects SET current=0;")
-    local _ = db:exec("UPDTAE projects SET current=1 WHERE name=='"..name.."';")
-
+    local x = db:exec("UPDATE projects SET current=0;")
+    local y = db:exec("UPDTAE projects SET current=1 WHERE name=='"..name.."';")
+    print(x)
+    print(y)
     db:close()
 end
 
