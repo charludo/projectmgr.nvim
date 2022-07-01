@@ -25,6 +25,7 @@ end
 
 function M.set_current_project(name)
     local db = sqlite.open(db_path)
+    print(name)
     -- local _ = db:exec("UPDATE projects SET current=0;")
     -- db:close()
 
