@@ -1,10 +1,7 @@
--- Imports the module for handling SQLite.
-local fetch = require("projectmgr.fetch")
-
 local sqlite = require("lsqlite3")
 local db_path =
 	string.match(debug.getinfo(1, "S").source, "^@(.+/)[%a%-%d_]+%.lua$"):gsub("lua/projectmgr/", "projects.db")
--- Creates an object for the module.
+
 local M = {}
 
 function M.prepare_db()
@@ -13,7 +10,6 @@ function M.prepare_db()
 		"create table IF NOT EXISTS projects(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, path TEXT NOT NULL, commandstart TEXT, commandexit TEXT, current INTEGER DEFAULT '0' NOT NULL);"
 	)
 
-	-- check if table is in new format; if not, migrate
 	local count = nil
 	for i in db:nrows("SELECT COUNT(*) AS CNTREC FROM pragma_table_info('projects') WHERE name='commandstart';") do
 		count = i.CNTREC
@@ -24,6 +20,65 @@ function M.prepare_db()
 		db:exec("ALTER TABLE projects ADD current INTEGER DEFAULT '0' NOT NULL;")
 	end
 	db:close()
+end
+
+function M.get_projects()
+	local db = sqlite.open(db_path)
+
+	local results = {}
+
+	for i in db:nrows("SELECT * FROM projects ORDER BY name;") do
+		table.insert(results, i.name)
+	end
+
+	db:close()
+	return results
+end
+
+function M.get_current_project()
+	local db = sqlite.open(db_path)
+
+	local name = nil
+
+	for i in db:nrows("SELECT name FROM projects WHERE current=='1';") do
+		name = i.name
+	end
+
+	db:close()
+
+	return name
+end
+
+function M.is_in_project()
+	local db = sqlite.open(db_path)
+
+	local is_in = false
+
+	local pwd = vim.fn.getcwd()
+	for _ in db:nrows("SELECT name FROM projects WHERE instr(path, '" .. pwd .. "');") do
+		is_in = true
+	end
+
+	db:close()
+
+	return is_in
+end
+
+function M.get_single_project(name)
+	if name == nil then
+		return nil, nil, nil
+	end
+	local db = sqlite.open(db_path)
+
+	local path, commandstart, commandexit = nil, nil, nil
+
+	for i in db:nrows("SELECT path, commandstart, commandexit FROM projects WHERE name=='" .. name .. "';") do
+		path, commandstart, commandexit = i.path, i.commandstart, i.commandexit
+	end
+
+	db:close()
+
+	return path, commandstart, commandexit
 end
 
 function M.set_current_project(name)
@@ -37,8 +92,6 @@ function M.set_current_project(name)
 	db:close()
 end
 
--- Inserts a new project, prompting the
--- user to enter relevant data.
 function M.create_project()
 	local name
 	repeat
@@ -87,7 +140,7 @@ function M.create_project()
 end
 
 function M.update_project(old_name)
-	local old_path, old_commandstart, old_commandexit = fetch.get_single_project(old_name)
+	local old_path, old_commandstart, old_commandexit = M.get_single_project(old_name)
 	local name
 	repeat
 		name = vim.fn.input("Project Name: ", old_name)
@@ -139,7 +192,6 @@ function M.update_project(old_name)
 	)
 end
 
--- Deletes a project.
 function M.delete_project(name)
 	local db = sqlite.open(db_path)
 
