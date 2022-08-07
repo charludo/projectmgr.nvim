@@ -37,23 +37,23 @@ end
 -- Inserts a new project, prompting the
 -- user to enter relevant data.
 function M.create_project()
-    local name = ""
+    local name
     repeat
         name = vim.fn.input("Project Name: ")
         print("")
     until (name ~= "") and (string.len(name) <= 150)
 
-    local path = ""
+    local path
     repeat
-        path = vim.fn.input("Project Path: ")
+        path = vim.fn.input({prompt="Project Path: ", completion="file_in_path"})
         print("")
     until (path ~= "") and (string.len(path) <= 150)
 
-    local commandstart = ""
-    commandstart = vim.fn.input("Startup Command (opional): ")
+    local commandstart
+    commandstart = vim.fn.input({prompt="Startup Command (opional): ", completion="file_in_path"})
 
-    local commandexit = ""
-    commandexit = vim.fn.input("Exit Command (optional): ")
+    local commandexit
+    commandexit = vim.fn.input({prompt="Exit Command (optional): ", completion="file_in_path"})
 
     local db = sqlite.open(db_path)
     local _ = db:exec("INSERT INTO projects (name, path, commandstart, commandexit) VALUES ('" .. name .. "', '" .. path .. "', '" .. commandstart .. "', '" .. commandexit .. "');")
@@ -64,23 +64,23 @@ end
 
 function M.update_project(old_name)
     local old_path, old_commandstart, old_commandexit = fetch.get_single_project(old_name)
-    local name = ""
+    local name
     repeat
         name = vim.fn.input("Project Name: ", old_name)
         print("")
     until (name ~= "") and (string.len(name) <= 150)
 
-    local path = ""
+    local path
     repeat
-        path = vim.fn.input("Project Path: ", old_path)
+        path = vim.fn.input({prompt="Project Path: ", default=old_path, completion="file_in_path"})
         print("")
     until (path ~= "") and (string.len(path) <= 150)
 
-    local commandstart = ""
-    commandstart = vim.fn.input("Startup Command (opional): ", old_commandstart)
+    local commandstart
+    commandstart = vim.fn.input({prompt="Startup Command (opional): ", default=old_commandstart, completion="file_in_path"})
 
-    local commandexit = ""
-    commandexit = vim.fn.input("Exit Command (optional): ", old_commandexit)
+    local commandexit
+    commandexit = vim.fn.input({prompt="Exit Command (optional): ", default=old_commandexit, completion="file_in_path"})
 
     local db = sqlite.open(db_path)
     local _ = db:exec("UPDATE projects SET name='"..name.."', path='"..path.."', commandstart='"..commandstart.."', '" ..commandexit.. "' WHERE name=='"..old_name.."';")
