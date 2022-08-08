@@ -9,11 +9,11 @@ function M.open_project(reopen)
 	local new_wd, command, _ = nil, nil, nil
 
 	if reopen == nil then
-		M.close_project()
 		db.set_current_project(helpers.get_highlighted_name())
-
 		new_wd, command, _ = db.get_single_project(helpers.get_highlighted_name())
+
 		window.close_window()
+		M.close_project()
 	elseif reopen == "-1" then
 		return
 	else
@@ -81,6 +81,8 @@ function M.close_project()
 
 	helpers.execute_command(command)
 	helpers.execute_script(M.config.scripts.file_shutdown)
+
+	api.nvim_command("bufdo bd")
 end
 
 return M
