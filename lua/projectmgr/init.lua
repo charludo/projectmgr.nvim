@@ -44,7 +44,7 @@ end
 
 function M.startup()
 	db.prepare_db()
-	if M.config.reopen then
+	if M.config.reopen and not next(vim.fn.argv()) then
 		local last_open = db.get_current_project()
 		manage.open_project(last_open)
 	end
