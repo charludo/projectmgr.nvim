@@ -1,6 +1,7 @@
 local db = require("projectmgr.db_adapter")
 local window = require("projectmgr.window")
 local manage = require("projectmgr.manage")
+local helpers = require("projectmgr.helpers")
 
 local M = {}
 
@@ -44,11 +45,8 @@ end
 function M.startup()
 	db.prepare_db()
 	if M.config.reopen then
-		local current = db.get_current_project()
-		if current == nil then
-			current = "-1"
-		end
-		manage.open_project(current)
+		local last_open = db.get_current_project()
+		manage.open_project(last_open)
 	end
 end
 
@@ -64,5 +62,7 @@ M.close_window = window.close_window
 M.create_project = window.create_project
 M.update_project = window.update_project
 M.delete_project = window.delete_project
+
+M.get_highlighted_name = helpers.get_highlighted_name
 
 return M

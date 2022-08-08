@@ -9,7 +9,7 @@ local M = {}
 
 local function set_mappings()
 	local mappings = {
-		["<cr>"] = "open_project()",
+		["<cr>"] = 'open_project(require"projectmgr".get_highlighted_name())',
 		["x"] = "delete_project()",
 		["d"] = "delete_project()",
 		["e"] = "update_project()",
@@ -116,7 +116,9 @@ function M.open_window()
 end
 
 function M.close_window()
-	api.nvim_win_close(win, true)
+	if win ~= nil then
+		api.nvim_win_close(win, true)
+	end
 end
 
 function M.create_project()

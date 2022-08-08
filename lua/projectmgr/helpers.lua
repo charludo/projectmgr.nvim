@@ -35,4 +35,21 @@ function M.execute_script(filename)
 	end
 end
 
+function M.autogit()
+	local is_git = false
+	local handle = io.popen("git rev-parse --is-inside-work-tree")
+	if handle ~= nil then
+		local check_result = handle:read("*a")
+		if string.find(check_result, "true") then
+			is_git = true
+		end
+		handle:close()
+	end
+
+	if is_git then
+		local _ = io.popen("git fetch && git pull")
+		print("[ProjectMgr] git repo found, fetching && pulling...")
+	end
+end
+
 return M

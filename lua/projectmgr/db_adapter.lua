@@ -66,11 +66,11 @@ end
 function M.is_in_project()
 	local db = sqlite.open(db_path)
 
-	local is_in = false
+	local is_in = nil
 
 	local pwd = vim.fn.getcwd()
-	for _ in db:nrows("SELECT name FROM projects WHERE instr('" .. pwd .. "', path);") do
-		is_in = true
+	for i in db:nrows("SELECT name FROM projects WHERE instr('" .. pwd .. "', trim(trim(path, '\\'), '/'));") do
+		is_in = i.name
 	end
 
 	db:close()
