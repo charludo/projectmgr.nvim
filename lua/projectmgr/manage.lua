@@ -67,6 +67,7 @@ end
 
 function M.close_project()
 	if not db.is_in_project() then
+		db.set_current_project(nil)
 		return
 	end
 	local _, _, command = db.get_single_project(db.get_current_project())

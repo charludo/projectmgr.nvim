@@ -35,6 +35,20 @@ function M.get_projects()
 	return results
 end
 
+function M.set_current_project(name)
+	local db = sqlite.open(db_path)
+	local _ = db:exec("UPDATE projects SET current='0';")
+	db:close()
+
+	if name == nil then
+		return
+	end
+
+	db = sqlite.open(db_path)
+	local _ = db:exec("UPDATE projects SET current='1' WHERE name=='" .. name .. "';")
+	db:close()
+end
+
 function M.get_current_project()
 	local db = sqlite.open(db_path)
 
@@ -55,7 +69,7 @@ function M.is_in_project()
 	local is_in = false
 
 	local pwd = vim.fn.getcwd()
-	for _ in db:nrows("SELECT name FROM projects WHERE instr(path, '" .. pwd .. "');") do
+	for _ in db:nrows("SELECT name FROM projects WHERE instr('" .. pwd .. "', path);") do
 		is_in = true
 	end
 
@@ -79,17 +93,6 @@ function M.get_single_project(name)
 	db:close()
 
 	return path, commandstart, commandexit
-end
-
-function M.set_current_project(name)
-	local db = sqlite.open(db_path)
-	print(name)
-	local _ = db:exec("UPDATE projects SET current='0';")
-	db:close()
-
-	db = sqlite.open(db_path)
-	local _ = db:exec("UPDATE projects SET current='1' WHERE name=='" .. name .. "';")
-	db:close()
 end
 
 function M.create_project()
