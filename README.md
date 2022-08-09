@@ -32,7 +32,7 @@
 
 ### 📽 Demo
 
-![Demo Gif](https://raw.githubusercontent.com/charludo/projectmgr.nvim/main/demo.gif)
+![Demo Gif](https://raw.githubusercontent.com/charludo/media-storage/main/demo.gif)
 
 &nbsp;
 
