@@ -108,6 +108,17 @@ function M.close_project()
 	local _, _, command = db.get_single_project(name_from_path)
 
 	if M.config.session.enabled then
+		vim.api.nvim_exec(
+			[[
+					for l in range(1, bufnr('$'))
+					if bufexists(l) && !buflisted(l)
+					exec 'bd ' . l
+					endif
+					endfor
+					]],
+			false
+		)
+
 		api.nvim_command("set sessionoptions-=options")
 		api.nvim_command("mksession! " .. M.config.session.file)
 	end
