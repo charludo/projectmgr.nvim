@@ -21,7 +21,7 @@
 
 - create a list of projects, then quickly switch between them
 - automate startup and shutdown tasks for each project:
-  - git fetch && git pull when entering the project
+  - `git fetch` && `git pull` when entering the project
   - custom startup command and/or script
   - custom shutdown command and/or script
 - save and restore sessions and shada files on a per-project base

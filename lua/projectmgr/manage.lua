@@ -52,7 +52,7 @@ function M.close_project()
 			[[
 					for l in range(1, bufnr('$'))
 					if bufexists(l) && !buflisted(l)
-					exec 'bd ' . l
+					silent! exec 'bd ' . l
 					endif
 					endfor
 					]],
