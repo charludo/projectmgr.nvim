@@ -34,7 +34,7 @@ function M.setup(config)
 		[[
         augroup ProjectMgrGroup
             autocmd!
-            autocmd VimEnter * lua require("projectmgr").startup()
+            autocmd VimEnter * nested lua require("projectmgr").startup()
             autocmd VimLeavePre * lua require("projectmgr").shutdown()
         augroup END
     ]],
