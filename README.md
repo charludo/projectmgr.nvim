@@ -8,9 +8,9 @@
 
 <p align="center">
 	<a href="https://github.com/charludo/projectmgr.nvim/stargazers">
-		<img alt="Stars" src="https://img.shields.io/github/stars/charludo/projectmgr.nvim?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=F3B562&labelColor=302D41"></a>
+		<img alt="Stars" src="https://img.shields.io/github/stars/charludo/projectmgr.nvim?style=for-the-badge&logo=starship&color=F3B562&logoColor=D9E0EE&labelColor=302D41"></a>
 	<a href="https://github.com/charludo/projectmgr.nvim/issues">
-		<img alt="Issues" src="https://img.shields.io/github/issues/charludo/projectmgr.nvim?style=for-the-badge&logo=bilibili&color=F5E0DC&logoColor=F06060&labelColor=302D41"></a>
+		<img alt="Issues" src="https://img.shields.io/github/issues/charludo/projectmgr.nvim?style=for-the-badge&logo=bilibili&color=F06060&logoColor=D9E0EE&labelColor=302D41"></a>
 	<a href="https://github.com/charludo/projectmgr.nvim">
 		<img alt="Size" src="https://img.shields.io/github/repo-size/charludo/projectmgr.nvim?color=8CBEB2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41"/></a>
 </p>
