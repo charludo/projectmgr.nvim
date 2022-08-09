@@ -1,30 +1,44 @@
-# ProjectMgr
+<p align="center">
+  <h2 align="center">📚 projectmgr.nvim</h2>
+</p>
 
-> Quickly switch between projects and define custom startup commands for each.
+<p align="center">
+	Quickly switch between projects and automate startup tasks
+</p>
 
-1. [What problem does this plugin solve?](#what-problem-does-this-plugin-solve)
-2. [Demo](#demo)
-3. [Installation](#installation)
-    - [With packer](#with-packer)
-    - [With other plugin managers](#with-other-plugin-managers)
-4. [Commands & Functions](#commands--functions)
+<p align="center">
+	<a href="https://github.com/charludo/projectmgr.nvim/stargazers">
+		<img alt="Stars" src="https://img.shields.io/github/stars/charludo/projectmgr.nvim?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=F3B562&labelColor=302D41"></a>
+	<a href="https://github.com/charludo/projectmgr.nvim/issues">
+		<img alt="Issues" src="https://img.shields.io/github/issues/charludo/projectmgr.nvim?style=for-the-badge&logo=bilibili&color=F5E0DC&logoColor=F06060&labelColor=302D41"></a>
+	<a href="https://github.com/charludo/projectmgr.nvim">
+		<img alt="Size" src="https://img.shields.io/github/repo-size/charludo/projectmgr.nvim?color=8CBEB2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41"/></a>
+</p>
 
-## What problem does this plugin solve?
+&nbsp;
 
-If you have a lot of projects you work on simultaneously, you are frequently switching between these projects.
-Often times, these projects will require some command(s) to be run every time you work on them - starting a webserver, activating a python virtual environment, or even just fetching and pulling changes.
+### 📜 Features
 
-This plugin allows you to define projects and an associated command. At the press of a button, the working directory is changed to that of your project and the startup command is executed,
-thus significantly simplifying and speeding up some of the most common steps you take every time you open (neo)vim.
+- create a list of projects, then quickly switch between them
+- automate startup and shutdown tasks for each project:
+  - git fetch && git pull when entering the project
+  - custom startup command and/or script
+  - custom shutdown command and/or script
+- save and restore sessions and shada files on a per-project base
+- reopen last opened project (if you exited vim from within a project)
+- freely configurable, disable any unwanted feature(s)
 
-## Demo
+&nbsp;
 
-The demo first shows the creation of a new project, then the opening of the same project.
+### 📽 Demo
+
 ![Demo Gif](https://raw.githubusercontent.com/charludo/projectmgr.nvim/main/demo.gif)
 
-## Installation
+&nbsp;
 
-### With packer
+### 📦 Installation
+
+The plugin is intended for use with packer, since a `luarocks` dependency exists:
 
 ```lua
 use {
@@ -33,22 +47,44 @@ use {
 }
 ```
 
-### With other plugin managers
+&nbsp;
 
-Not tested, sorry. Should work as usual though - just remember to manually install the dependency (lsqlite3) through luarocks.
+### ⚙️ Configuration
 
-## Commands & Functions
+**projectmgr** default configuration:
 
-The plugin adds one command: `:ProjectMgr` opens the ProjectMgr-window. I recommend to rebind the command to `<leader>P` or similar.
+```lua
+{
+    autogit = false,
+	reopen = false,
+	session = { enabled = true, file = "Session.vim" },
+	shada = { enabled = false, file = "main.shada" },
+	scripts = {
+		enabled = true,
+		file_startup = "startup.sh",
+		file_shutdown = "shutdown.sh",
+	},
+}
+```
 
-Once inside the window, the following keybinds become active:
+It's recommended to set up a key mapping to toggle the projectmgr window:
 
-Key | Action
-:--- | :---
-`a` | Add a project. You will be asked for a name, a path, and optionally a command.
-`<CR>` | Open the project under your cursor
-`d` / `x` | Delete project under your cursor
-`e` / `u` | Edit the project under your cursor
-`q` / `<ESC>` | Close the window without doing anything
+```lua
+vim.api.nvim_set_keymap("n", "<leader>p", ":ProjectMgr<CR>", {})
+```
 
+&nbsp;
 
+### 🦑 Usage
+
+`:ProjectMgr` (or your keybind) toggles the projectmgr window. Here you can perform the following actions:
+
+| Key           | Action                                                                                             |
+| :------------ | :------------------------------------------------------------------------------------------------- |
+| `<CR>`        | Open the project under your cursor                                                                 |
+| `a`           | Add a project. You will be asked for a name, a path, and optionally startup and shutdown commands. |
+| `d` / `x`     | Delete project under your cursor                                                                   |
+| `e` / `u`     | Edit the project under your cursor                                                                 |
+| `q` / `<ESC>` | Close the window without doing anything                                                            |
+
+&nbsp;
