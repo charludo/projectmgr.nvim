@@ -25,7 +25,7 @@ function M.open_project(name)
 		api.nvim_command("so " .. M.config.session.file)
 	end
 
-	if M.config.shada.enabled and helpers.file_exists(M.config.shada) then
+	if M.config.shada.enabled and helpers.file_exists(M.config.shada.file) then
 		api.nvim_command("rshada " .. M.config.shada.file)
 	end
 

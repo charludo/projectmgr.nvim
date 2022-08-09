@@ -27,7 +27,7 @@ function M.setup(config)
 		scripts = { config.scripts, "t", true },
 	})
 
-	M.config = vim.tbl_extend("keep", config, default_config)
+	M.config = vim.tbl_deep_extend("keep", config, default_config)
 	manage.config = M.config
 
 	vim.api.nvim_exec(

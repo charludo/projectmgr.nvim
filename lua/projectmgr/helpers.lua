@@ -3,6 +3,9 @@ local api = vim.api
 local M = {}
 
 function M.file_exists(name)
+	if name == nil then
+		return false
+	end
 	local f = io.open(name, "r")
 	if f ~= nil then
 		io.close(f)
