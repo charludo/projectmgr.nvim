@@ -4,6 +4,7 @@ local manage = require("projectmgr.manage")
 local helpers = require("projectmgr.helpers")
 
 local M = {}
+local setup_completed = false
 
 local default_config = {
 	autogit = false,
@@ -18,6 +19,9 @@ local default_config = {
 }
 
 function M.setup(config)
+	if setup_completed then
+		return
+	end
 	config = config or {}
 	vim.validate({
 		autogit = { config.autogit, "b", true },
@@ -29,20 +33,11 @@ function M.setup(config)
 
 	M.config = vim.tbl_deep_extend("keep", config, default_config)
 	manage.config = M.config
-
-	vim.api.nvim_exec(
-		[[
-        augroup ProjectMgrGroup
-            autocmd!
-            autocmd VimEnter * nested lua require("projectmgr").startup()
-            autocmd VimLeavePre * lua require("projectmgr").shutdown()
-        augroup END
-    ]],
-		false
-	)
+	setup_completed = true
 end
 
 function M.startup()
+	M.setup()
 	db.prepare_db()
 	if M.config.reopen and not next(vim.fn.argv()) then
 		local last_open = db.get_current_project()
