@@ -21,3 +21,9 @@ let &cpo = s:save_cpo
 unlet s:save_cpo
 
 let g:loaded_projectmgr = 1
+
+augroup ProjectMgrGroup
+    autocmd!
+    autocmd VimEnter * nested lua require("projectmgr").startup()
+    autocmd VimLeavePre * lua require("projectmgr").shutdown()
+augroup END
