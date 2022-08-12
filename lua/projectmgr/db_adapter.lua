@@ -1,4 +1,4 @@
-local sqlite = require("lsqlite3")
+local sqlite = require("lsqlite3complete")
 local db_path =
 	string.match(debug.getinfo(1, "S").source, "^@(.+/)[%a%-%d_]+%.lua$"):gsub("lua/projectmgr/", "projects.db")
 
