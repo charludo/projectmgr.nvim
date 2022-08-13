@@ -43,7 +43,7 @@ The plugin is intended for use with packer, since a `luarocks` dependency exists
 ```lua
 use {
   'charludo/projectmgr.nvim',
-  rocks = {'lsqlite3'},
+  rocks = {'lsqlite3complete'},
 }
 ```
 
