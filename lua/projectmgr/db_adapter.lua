@@ -182,7 +182,7 @@ function M.update_project(old_name)
 			.. path
 			.. "', commandstart='"
 			.. commandstart
-			.. "', '"
+			.. "', commandexit='"
 			.. commandexit
 			.. "' WHERE name=='"
 			.. old_name
