@@ -27,6 +27,7 @@
 - save and restore sessions and shada files on a per-project base
 - reopen last opened project (if you exited vim from within a project)
 - freely configurable, disable any unwanted feature(s)
+- if you are already using [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim), this plugin will integrate with it OOTB
 
 &nbsp;
 
@@ -87,4 +88,5 @@ vim.api.nvim_set_keymap("n", "<leader>p", ":ProjectMgr<CR>", {})
 | `e` / `u`     | Edit the project under your cursor                                                                 |
 | `q` / `<ESC>` | Close the window without doing anything                                                            |
 
+**Note:** if you are using `telescope.nvim`, the keymap slightly changes. For all commands except `<CR>`, press control at the sime time (e.g. instead of `a`, adding a project is mapped to `<C-a>`).
 &nbsp;
