@@ -1,6 +1,5 @@
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
-local builtin = require("telescope.builtin")
 local previewers = require("telescope.previewers")
 local config = require("telescope.config")
 local actions = require("telescope.actions")
@@ -21,16 +20,13 @@ local show_telescope = function(opts)
 			sorter = config.values.generic_sorter(opts),
 			previewer = previewers.new_buffer_previewer({
 				title = "Config & Info",
-				define_preview = function(self, entry, status)
+				define_preview = function(self, entry, _)
 					local path, start, stop = db.get_single_project(entry.value)
 					local current, tracking = helpers.git_info(path)
 					vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, {
 						"    project path: " .. path,
 						" startup command: " .. helpers.symbolize(start),
 						"shutdown command: " .. helpers.symbolize(stop),
-						-- "",
-						-- "startup script: " .. symbolize(helpers.file_exists(M.config.scripts.file_startup)),
-						-- "shutdown script:",
 						"",
 						" active git repo: " .. helpers.symbolize(helpers.check_git(path)),
 						"  current branch: " .. current,
