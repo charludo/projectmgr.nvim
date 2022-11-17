@@ -27,6 +27,7 @@
 - save and restore sessions and shada files on a per-project base
 - reopen last opened project (if you exited vim from within a project)
 - freely configurable, disable any unwanted feature(s)
+- if you are already using [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim), this plugin will integrate with it OOTB
 
 &nbsp;
 
@@ -75,16 +76,26 @@ vim.api.nvim_set_keymap("n", "<leader>p", ":ProjectMgr<CR>", {})
 
 &nbsp;
 
-### 🦑 Usage
+### 🦑 Usage with `telescope.nvim`
 
-`:ProjectMgr` (or your keybind) toggles the projectmgr window. Here you can perform the following actions:
+`:ProjectMgr` (or your keybind) toggles a telescope picker with your projects. The telescope preview displays information about your project
+and its current git state. (I'm very much open to adding more info here and am happy about suggestions!)
 
-| Key           | Action                                                                                             |
-| :------------ | :------------------------------------------------------------------------------------------------- |
-| `<CR>`        | Open the project under your cursor                                                                 |
-| `a`           | Add a project. You will be asked for a name, a path, and optionally startup and shutdown commands. |
-| `d` / `x`     | Delete project under your cursor                                                                   |
-| `e` / `u`     | Edit the project under your cursor                                                                 |
-| `q` / `<ESC>` | Close the window without doing anything                                                            |
+The following actions and keybinds are available:
+
+| Key               | Action                                                                                             |
+| :---------------- | :------------------------------------------------------------------------------------------------- |
+| `<CR>`            | Open the project under your cursor                                                                 |
+| `<C-a>`           | Add a project. You will be asked for a name, a path, and optionally startup and shutdown commands. |
+| `<C-d>` / `<C-x>` | Delete project under your cursor                                                                   |
+| `<C-e>` / `<C-u>` | Edit the project under your cursor                                                                 |
+| `<C-q>` / `<ESC>` | Close the window without doing anything                                                            |
+
+&nbsp;
+
+### 🦑 Usage without `telescope.nvim`
+
+`projectmgr` comes with a fallback window in case you aren't using `telescope.nvim`. The same actions are available.
+The keybinds are slightly different: `<C-a>` is replaced by just `a`, `<C-q>` becomes just `q`, and so on.
 
 &nbsp;

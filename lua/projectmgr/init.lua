@@ -52,12 +52,18 @@ end
 M.open_project = manage.open_project
 M.close_project = manage.close_project
 
-M.open_window = window.open_window
-M.close_window = window.close_window
-M.create_project = window.create_project
-M.update_project = window.update_project
-M.delete_project = window.delete_project
+local present, _ = pcall(require, "telescope")
 
-M.get_highlighted_name = helpers.get_highlighted_name
+if present then
+	local telescope_picker = require("projectmgr.telescope_picker")
+	M.open_window = telescope_picker.open_picker
+else
+	M.open_window = window.open_window
+	M.close_window = window.close_window
+	M.create_project = window.create_project
+	M.update_project = window.update_project
+	M.delete_project = window.delete_project
+	M.get_highlighted_name = helpers.get_highlighted_name
+end
 
 return M

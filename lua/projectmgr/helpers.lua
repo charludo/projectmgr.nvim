@@ -38,9 +38,30 @@ function M.execute_script(filename)
 	end
 end
 
-function M.autogit()
+function M.trim(str)
+	str = str:gsub("[\n\r]", " ")
+	return str
+end
+
+function M.remove_trailing_slash(str)
+	str = str:gsub("(.*)/$", "%1")
+	return str
+end
+
+function M.call_ext(command)
+	local handle = io.popen(command)
+	if handle ~= nil then
+		local result = handle:read("*a")
+		handle:close()
+		return M.trim(result)
+	end
+	return nil
+end
+
+function M.check_git(path)
 	local is_git = false
-	local handle = io.popen("git rev-parse --is-inside-work-tree")
+	local handle =
+		io.popen("git -C " .. M.remove_trailing_slash(path) .. " rev-parse --is-inside-work-tree 2>/dev/null")
 	if handle ~= nil then
 		local check_result = handle:read("*a")
 		if string.find(check_result, "true") then
@@ -48,11 +69,43 @@ function M.autogit()
 		end
 		handle:close()
 	end
+	return is_git
+end
 
-	if is_git then
+function M.autogit()
+	if M.check_git(".") then
 		local _ = io.popen("git fetch && git pull")
 		print("[ProjectMgr] git repo found, fetching && pulling...")
 	end
+end
+
+function M.symbolize(value)
+	if type(value) == "string" then
+		if value:gsub("%s+", "") ~= "" then
+			return value
+		end
+		value = false
+	end
+	if value then
+		return "✓"
+	else
+		return "✗"
+	end
+end
+
+function M.git_info(path)
+	if not M.check_git(path) then
+		return "✗", "✗", "✗"
+	end
+	local current_branch =
+		M.call_ext("git -C " .. M.remove_trailing_slash(path) .. "/.git rev-parse --abbrev-ref HEAD 2>/dev/null")
+	local tracking_branch = M.call_ext(
+		"git -C "
+			.. M.remove_trailing_slash(path)
+			.. "/.git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null"
+	)
+
+	return M.symbolize(current_branch), M.symbolize(tracking_branch)
 end
 
 return M
