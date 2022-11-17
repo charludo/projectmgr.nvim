@@ -21,7 +21,7 @@
 
 - create a list of projects, then quickly switch between them
 - automate startup and shutdown tasks for each project:
-  - `git fetch` && `git pull` when entering the project
+  - pull from a remote when entering the project
   - custom startup command and/or script
   - custom shutdown command and/or script
 - save and restore sessions and shada files on a per-project base
@@ -56,7 +56,10 @@ use {
 
 ```lua
 {
-  autogit = false,
+  autogit = {
+    enabled = false,
+    command = "git pull --ff-only",
+  },
   reopen = false,
   session = { enabled = true, file = "Session.vim" },
   shada = { enabled = false, file = "main.shada" },
@@ -95,7 +98,7 @@ The following actions and keybinds are available:
 
 ### 🦑 Usage without `telescope.nvim`
 
-`projectmgr` comes with a fallback window in case you aren't using `telescope.nvim`. The same actions are available.
+**projectmgr** comes with a fallback window in case you aren't using `telescope.nvim`. The same actions are available.
 The keybinds are slightly different: `<C-a>` is replaced by just `a`, `<C-q>` becomes just `q`, and so on.
 
 &nbsp;
