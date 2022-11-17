@@ -72,10 +72,10 @@ function M.check_git(path)
 	return is_git
 end
 
-function M.autogit()
+function M.autogit(command)
 	if M.check_git(".") then
-		local _ = io.popen("git fetch && git pull")
-		print("[ProjectMgr] git repo found, fetching && pulling...")
+		local _ = io.popen(command)
+		print("[ProjectMgr] git repo found, pulling...")
 	end
 end
 

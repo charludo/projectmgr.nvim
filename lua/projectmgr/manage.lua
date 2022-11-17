@@ -17,8 +17,8 @@ function M.open_project(name)
 
 	api.nvim_command("cd " .. path)
 
-	if M.config.autogit then
-		helpers.autogit()
+	if M.config.autogit.enabled then
+		helpers.autogit(M.config.autogit.command)
 	end
 
 	if M.config.session.enabled and helpers.file_exists(M.config.session.file) then

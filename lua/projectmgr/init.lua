@@ -7,7 +7,10 @@ local M = {}
 local setup_completed = false
 
 local default_config = {
-	autogit = false,
+	autogit = {
+		enabled = false,
+		command = "git pull --ff-only",
+	},
 	reopen = false,
 	session = { enabled = true, file = "Session.vim" },
 	shada = { enabled = false, file = "main.shada" },
@@ -24,7 +27,7 @@ function M.setup(config)
 	end
 	config = config or {}
 	vim.validate({
-		autogit = { config.autogit, "b", true },
+		autogit = { config.autogit, "t", true },
 		reopen = { config.reopen, "b", true },
 		session = { config.session, "t", true },
 		shada = { config.shada, "t", true },
