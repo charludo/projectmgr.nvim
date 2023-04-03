@@ -1,4 +1,4 @@
-local db = require("projectmgr.db_adapter")
+local db = require("projectmgr.file_adapter")
 local helpers = require("projectmgr.helpers")
 
 local api = vim.api

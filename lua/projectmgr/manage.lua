@@ -1,5 +1,5 @@
 local api = vim.api
-local db = require("projectmgr.db_adapter")
+local db = require("projectmgr.file_adapter")
 local helpers = require("projectmgr.helpers")
 local window = require("projectmgr.window")
 

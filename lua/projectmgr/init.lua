@@ -1,4 +1,4 @@
-local db = require("projectmgr.db_adapter")
+local db = require("projectmgr.file_adapter")
 local window = require("projectmgr.window")
 local manage = require("projectmgr.manage")
 local helpers = require("projectmgr.helpers")
@@ -41,7 +41,7 @@ end
 
 function M.startup()
 	M.setup()
-	db.prepare_db()
+	db.migrate_if_necessary()
 	if M.config.reopen and not next(vim.fn.argv()) then
 		local last_open = db.get_current_project()
 		manage.open_project(last_open)
