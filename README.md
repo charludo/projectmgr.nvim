@@ -39,12 +39,20 @@
 
 ### 📦 Installation
 
-The plugin is intended for use with packer, since a `luarocks` dependency exists:
+The plugin is straightforward to install, so feel free to use your favorite plugin manager, e.g.:
+
+**Packer:**
 
 ```lua
-use {
+use { 'charludo/projectmgr.nvim' }
+```
+
+**Lazy:**
+
+```lua
+{
   'charludo/projectmgr.nvim',
-  rocks = {'lsqlite3complete'},
+  lazy = false, -- important!
 }
 ```
 
@@ -71,7 +79,7 @@ use {
 }
 ```
 
-It's recommended to set up a key mapping to toggle the projectmgr window:
+It's a good idea to set up a key mapping to toggle the projectmgr window:
 
 ```lua
 vim.api.nvim_set_keymap("n", "<leader>p", ":ProjectMgr<CR>", {})

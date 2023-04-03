@@ -5,7 +5,7 @@ local config = require("telescope.config")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local manage = require("projectmgr.manage")
-local db = require("projectmgr.db_adapter")
+local db = require("projectmgr.file_adapter")
 local helpers = require("projectmgr.helpers")
 
 local M = {}
