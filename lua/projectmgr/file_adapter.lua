@@ -103,7 +103,7 @@ function M.create_project()
 
 	local commandstart
 	commandstart = vim.fn.input({
-		prompt = "Startup Command (opional): ",
+		prompt = "Startup Command (optional): ",
 		completion = "file_in_path",
 	})
 
@@ -145,7 +145,7 @@ function M.update_project(old_name)
 
 	local commandstart
 	commandstart = vim.fn.input({
-		prompt = "Startup Command (opional): ",
+		prompt = "Startup Command (optional): ",
 		default = old_commandstart,
 		completion = "file_in_path",
 	})
