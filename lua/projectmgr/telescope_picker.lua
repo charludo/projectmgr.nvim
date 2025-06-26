@@ -77,6 +77,12 @@ local show_telescope = function(opts)
 					db.create_project()
 					M.open_picker()
 				end)
+				map({ "i", "n" }, "<C-j>", function(_prompt_bufnr)
+					actions.move_selection_next(_prompt_bufnr)
+				end)
+				map({ "i", "n" }, "<C-k>", function(_prompt_bufnr)
+					actions.move_selection_previous(_prompt_bufnr)
+				end)
 
 				return true
 			end,
