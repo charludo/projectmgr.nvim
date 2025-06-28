@@ -61,7 +61,7 @@ end
 function M.check_git(path)
 	local is_git = false
 	local handle =
-		io.popen("git -C " .. M.remove_trailing_slash(path) .. " rev-parse --is-inside-work-tree 2>/dev/null")
+		io.popen("git -C '" .. M.remove_trailing_slash(path) .. "' rev-parse --is-inside-work-tree 2>/dev/null")
 	if handle ~= nil then
 		local check_result = handle:read("*a")
 		if string.find(check_result, "true") then
@@ -98,11 +98,11 @@ function M.git_info(path)
 		return "✗", "✗", "✗"
 	end
 	local current_branch =
-		M.call_ext("git -C " .. M.remove_trailing_slash(path) .. "/.git rev-parse --abbrev-ref HEAD 2>/dev/null")
+		M.call_ext("git -C '" .. M.remove_trailing_slash(path) .. "/.git' rev-parse --abbrev-ref HEAD 2>/dev/null")
 	local tracking_branch = M.call_ext(
-		"git -C "
+		"git -C '"
 			.. M.remove_trailing_slash(path)
-			.. "/.git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null"
+			.. "/.git' rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null"
 	)
 
 	return M.symbolize(current_branch), M.symbolize(tracking_branch)
