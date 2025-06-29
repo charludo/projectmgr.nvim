@@ -1,6 +1,20 @@
 local api = vim.api
 
 local M = {}
+local PLATFORM = {}
+local UNIX_PLATFORM = require("projectmgr.platform.unix_platform")
+local WIN32_PLATFORM = require("projectmgr.platform.win32_platform")
+
+local sysname = vim.loop.os_uname().sysname
+local IS_MAC = sysname == 'Darwin'
+local IS_LINUX = sysname == 'Linux'
+local IS_WINDOWS = sysname:find 'Windows' and true or false
+
+if not IS_WINDOWS then
+	PLATFORM = UNIX_PLATFORM
+else
+	PLATFORM = WIN32_PLATFORM
+end
 
 function M.file_exists(name)
 	if name == nil then
@@ -43,11 +57,6 @@ function M.trim(str)
 	return str
 end
 
-function M.remove_trailing_slash(str)
-	str = str:gsub("(.*)/$", "%1")
-	return str
-end
-
 function M.call_ext(command)
 	local handle = io.popen(command)
 	if handle ~= nil then
@@ -60,8 +69,8 @@ end
 
 function M.check_git(path)
 	local is_git = false
-	local handle =
-		io.popen("git -C '" .. M.remove_trailing_slash(path) .. "' rev-parse --is-inside-work-tree 2>/dev/null")
+	local handle = io.popen(PLATFORM.inside_tree_cmd(path))
+
 	if handle ~= nil then
 		local check_result = handle:read("*a")
 		if string.find(check_result, "true") then
@@ -97,13 +106,8 @@ function M.git_info(path)
 	if not M.check_git(path) then
 		return "✗", "✗", "✗"
 	end
-	local current_branch =
-		M.call_ext("git -C '" .. M.remove_trailing_slash(path) .. "/.git' rev-parse --abbrev-ref HEAD 2>/dev/null")
-	local tracking_branch = M.call_ext(
-		"git -C '"
-			.. M.remove_trailing_slash(path)
-			.. "/.git' rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null"
-	)
+	local current_branch = M.call_ext(PLATFORM.get_git_branch(path))
+	local tracking_branch = M.call_ext(PLATFORM.get_tracking_branch(path))
 
 	return M.symbolize(current_branch), M.symbolize(tracking_branch)
 end
